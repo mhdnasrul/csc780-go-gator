@@ -1,1 +1,1 @@
-http://code.google.com/p/csc780-go-gator/source/browse/wiki/GoGator.pdf
+https://code.google.com/p/csc780-go-gator/source/browse/wiki/GoGator.doc
