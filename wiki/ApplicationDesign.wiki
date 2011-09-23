@@ -1,1 +1,1 @@
-https://code.google.com/p/csc780-go-gator/source/browse/wiki/GoGator.doc
+svn/wiki/GoGator.doc
