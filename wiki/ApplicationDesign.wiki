@@ -36,8 +36,7 @@ It is useful for students, faculty or visitors. It is a simple to use Android Ap
  * Nikita Attiguppe Dasharath 
 
 ==Mock ups==
-[https://code.google.com/p/csc780-go-gator/source/browse/img/s0.jpg]
-
+http://www.google.com/imgres?q=alligator&hl=en&biw=1366&bih=667&gbv=2&tbm=isch&tbnid=PbQEfsAMxow-SM:&imgrefurl=http://www.justanimal.org/alligator-6.html&docid=CVC-eejvRcEbBM&w=575&h=720&ei=G5h9TsSrEIXRiALqvom8Aw&zoom=1&iact=hc&vpx=359&vpy=197&dur=1089&hovh=251&hovw=201&tx=135&ty=129&page=1&tbnh=168&tbnw=134&start=0&ndsp=16&ved=1t:429,r:1,s:0
 For mock up images please refer the detailed doc by following the below link.
 
 https://code.google.com/p/csc780-go-gator/source/browse/wiki/GoGator.pdf
