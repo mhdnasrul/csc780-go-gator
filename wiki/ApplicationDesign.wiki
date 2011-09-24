@@ -37,8 +37,6 @@ It is useful for students, faculty or visitors. It is a simple to use Android Ap
 
 ==Mock ups==
 
-<wiki:image url="http://code.google.com/p/csc780-go-gator/source/browse/wiki/images/s-0.png"/>
-
 For mock up images please refer the detailed doc by following the below link.
 
 https://code.google.com/p/csc780-go-gator/source/browse/wiki/GoGator.pdf
