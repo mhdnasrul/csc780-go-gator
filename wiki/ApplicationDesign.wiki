@@ -1,6 +1,6 @@
 https://code.google.com/p/csc780-go-gator/source/browse/wiki/GoGator.doc
 
-=*GoGator~_Navigate SFSU with Gator_*=
+=*GoGator:_Navigate SFSU with Gator_*=
 
 ==Introduction==
 
