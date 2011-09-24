@@ -1,4 +1,4 @@
-=*_GoGator - Navigate SFSU with Gator_*=
+=*_GoGator !- Navigate SFSU with Gator_*=
 
 ==Introduction==
 
