@@ -39,4 +39,4 @@ It is useful for students, faculty or visitors. It is a simple to use Android Ap
 
 ==Mock ups==
 
-http://code.google.com/p/csc780-go-gator/source/browse/wiki/img/s0.jpg
+http://code.google.com/p/csc780-go-gator/source/browse/wiki/img/s0_new.jpg
