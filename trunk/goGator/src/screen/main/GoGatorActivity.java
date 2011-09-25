@@ -1,8 +1,10 @@
 package screen.main;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -11,6 +13,7 @@ public class GoGatorActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent;
         setContentView(R.layout.main);
 
         TabHost tab_host = (TabHost) findViewById(R.id.tab_host);
@@ -36,7 +39,11 @@ public class GoGatorActivity extends Activity {
         tabspec4.setIndicator("More", r.getDrawable(R.drawable.ic_dialog_info));
         tabspec4.setContent(R.id.fourth_tab);
         tab_host.addTab(tabspec4);
-
+ 
         tab_host.setCurrentTab(0);
+    }
+    public void launchMap(View view){
+    	Intent intent = new Intent(this, MapActivity.class);
+        startActivity(intent);
     }
 }

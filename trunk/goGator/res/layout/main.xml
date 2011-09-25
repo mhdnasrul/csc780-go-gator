@@ -51,16 +51,20 @@
                  	android:layout_alignParentRight="true"
                  	android:layout_alignParentBottom="true"
                  	android:layout_marginBottom="100px"/>
-                <!-- Replace TextView with your layout content for this tab -->
             </RelativeLayout>
             
             <LinearLayout android:id="@+id/second_tab"
-                android:orientation="vertical" android:layout_width="fill_parent"
+                android:orientation="vertical" 
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent" >
-                <TextView android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:text="Map" />
-                <!-- Replace TextView with your layout content for this tab -->
+                
+               <Button android:id="@+id/button" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginTop="25px"
+        android:layout_marginBottom="25px" android:layout_gravity="center"
+        android:text="Launch Map!!" android:onClick="launchMap"></Button>
+               
             </LinearLayout>
+            
             <LinearLayout android:id="@+id/third_tab"
                 android:orientation="vertical" android:layout_width="fill_parent"
                 android:layout_height="fill_parent" >
