@@ -1,49 +1,52 @@
 package screen.main;
 
-import android.app.Activity;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 
-public class GoGatorActivity extends Activity {
+public class GoGatorActivity extends TabActivity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent;
         setContentView(R.layout.main);
-
-        TabHost tab_host = (TabHost) findViewById(R.id.tab_host);
-        tab_host.setup();
-        Resources r = getResources();
         
-        TabSpec tabspec1 = tab_host.newTabSpec("home");
-        tabspec1.setIndicator("Home",r.getDrawable(R.drawable.ic_dialog_email));
-        tabspec1.setContent(R.id.first_tab);
-        tab_host.addTab(tabspec1);
+        Resources res = getResources(); // Resource object to get Drawables
+        TabHost tabHost = getTabHost();  // The activity TabHost
+        TabHost.TabSpec spec;  // Resusable TabSpec for each tab
+        Intent intent;  // Reusable Intent for each tab
 
-        TabSpec tabspec2 = tab_host.newTabSpec("map");
-        tabspec2.setIndicator("Map",r.getDrawable(R.drawable.ic_dialog_map));
-        tabspec2.setContent(R.id.second_tab);
-        tab_host.addTab(tabspec2);
+        // Create an Intent to launch an Activity for the tab (to be reused)
+        intent = new Intent().setClass(this, HomeActivity.class);
 
-        TabSpec tabspec3 = tab_host.newTabSpec("camera");
-        tabspec3.setIndicator("Camera", r.getDrawable(R.drawable.ic_dialog_dialer));
-        tabspec3.setContent(R.id.third_tab);
-        tab_host.addTab(tabspec3);
+        // Initialize a TabSpec for each tab and add it to the TabHost
+        spec = tabHost.newTabSpec("home").setIndicator("Home",
+                          res.getDrawable(R.drawable.ic_dialog_email))
+                      .setContent(intent);
+        tabHost.addTab(spec);
+
+        // Do the same for the other tabs
+        intent = new Intent().setClass(this, MapActivity.class);
+        spec = tabHost.newTabSpec("map").setIndicator("Map",
+                          res.getDrawable(R.drawable.ic_dialog_map))
+                      .setContent(intent);
+        tabHost.addTab(spec);
+
+        intent = new Intent().setClass(this, CameraActivity.class);
+        spec = tabHost.newTabSpec("camera").setIndicator("Camera",
+                          res.getDrawable(R.drawable.ic_dialog_dialer))
+                      .setContent(intent);
+        tabHost.addTab(spec);
         
-        TabSpec tabspec4 = tab_host.newTabSpec("more");
-        tabspec4.setIndicator("More", r.getDrawable(R.drawable.ic_dialog_info));
-        tabspec4.setContent(R.id.fourth_tab);
-        tab_host.addTab(tabspec4);
- 
-        tab_host.setCurrentTab(0);
-    }
-    public void launchMap(View view){
-    	Intent intent = new Intent(this, MapActivity.class);
-        startActivity(intent);
+        intent = new Intent().setClass(this, MoreActivity.class);
+        spec = tabHost.newTabSpec("more").setIndicator("More",
+                          res.getDrawable(R.drawable.ic_dialog_info))
+                      .setContent(intent);
+        tabHost.addTab(spec);
+
+        tabHost.setCurrentTab(0);
+     
     }
 }

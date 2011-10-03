@@ -1,84 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" 
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    
-    <TabHost android:id="@+id/tab_host"
-        android:layout_width="fill_parent" 
-        android:layout_height="fill_parent">
-        
-        <TabWidget android:layout_width="fill_parent"
-            android:layout_height="wrap_content" 
+     
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="5dp">
+      
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingBottom="60dp" />
+            
+    </LinearLayout>
+     <TabWidget
             android:id="@android:id/tabs"
-            android:layout_gravity="bottom" />
-            
-        <FrameLayout android:id="@android:id/tabcontent"
-            android:layout_width="fill_parent" 
-            android:layout_height="fill_parent" >
-            
-            <RelativeLayout android:id="@+id/first_tab"
-                android:orientation="vertical" 
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:padding="50px">
-                
-                <Button android:id="@+id/mycampus"  
-                	android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20px" 
-                    android:text="My Campus" />"
-                    
-                <Button android:id="@+id/mycafe"
-                	android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" 
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="20px"
-                    android:text="My Cafe" />
-                    
-                <Button android:id="@+id/myvisit" 
-                	android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" 
-                    android:text="My Visit" 
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="100px"
-                    />
-                    
-                <Button android:id="@+id/myride" 
-                	android:layout_width="wrap_content"
-                 	android:layout_height="wrap_content" 
-                 	android:text="My Ride" 
-                 	android:layout_alignParentRight="true"
-                 	android:layout_alignParentBottom="true"
-                 	android:layout_marginBottom="100px"/>
-            </RelativeLayout>
-            
-            <LinearLayout android:id="@+id/second_tab"
-                android:orientation="vertical" 
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
-                
-               <Button android:id="@+id/button" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_marginTop="25px"
-        android:layout_marginBottom="25px" android:layout_gravity="center"
-        android:text="Launch Map!!" android:onClick="launchMap"></Button>
-               
-            </LinearLayout>
-            
-            <LinearLayout android:id="@+id/third_tab"
-                android:orientation="vertical" android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
-                <TextView android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:text="Camera" />
-                <!-- Replace TextView with your layout content for this tab -->
-            </LinearLayout>
-            <LinearLayout android:id="@+id/fourth_tab"
-                android:orientation="vertical" android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-                <TextView android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:text="More" />
-            </LinearLayout>
-                <!-- Replace TextView with your layout content for this tab -->
-        </FrameLayout>
-    </TabHost>
-</LinearLayout>
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:layout_gravity="bottom"/>
+</TabHost>

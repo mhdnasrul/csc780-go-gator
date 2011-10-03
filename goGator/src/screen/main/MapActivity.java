@@ -20,11 +20,17 @@
 
 package screen.main;
 
+//import com.google.android.maps.GeoPoint;
+//import com.google.android.maps.MapController;
+//import com.google.android.maps.MapView;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 /**
  * This application uses the Google API to display a map of San Francisco. This
@@ -39,27 +45,32 @@ import android.os.Bundle;
  */
 public class MapActivity extends com.google.android.maps.MapActivity {
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TextView textview = new TextView(this);
+        textview.setText("This is the Map Activity tab");
+        setContentView(textview);
 
-        setContentView(R.layout.mainmap);
+        
+        setContentView(R.layout.maptab);
 
         MapView mapView = (MapView) findViewById(R.id.mapview);
-//        mapView.setBuiltInZoomControls(true);
-//
-//        /**
-//         * To show a map of San Francisco, we need to create a geo point object
-//         * with longitude and latitude in center of SF.
-//         */
-//        GeoPoint point = new GeoPoint(37779300, -122419200);
-//
-//        /**
-//         * MapController is needed to set view location and zooming.
-//         */
-//        MapController mc = mapView.getController();
-//        mc.setCenter(point);
-//        mc.setZoom(14);
+        mapView.setBuiltInZoomControls(true);
+
+        /**
+         * To show a map of San Francisco, we need to create a geo point object
+         * with longitude and latitude in center of SF.
+         */
+        GeoPoint point = new GeoPoint(37779300, -122419200);
+
+        /**
+         * MapController is needed to set view location and zooming.
+         */
+        MapController mc = mapView.getController();
+        mc.setCenter(point);
+        mc.setZoom(14);
     }
 
     @Override
