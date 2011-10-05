@@ -18,17 +18,13 @@
  * USA.
  */
 
-package screen.main;
+package screen.level2;
 
-//import com.google.android.maps.GeoPoint;
-//import com.google.android.maps.MapController;
-//import com.google.android.maps.MapView;
-
+import screen.main.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -43,14 +39,14 @@ import android.widget.TextView;
  * layout resource referencing the map. See the following link for details:
  * http://code.google.com/android/add-ons/google-apis/mapkey.html
  */
-public class MapActivity extends com.google.android.maps.MapActivity {
+public class MyRideActivity extends com.google.android.maps.MapActivity {
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TextView textview = new TextView(this);
-        textview.setText("This is the Map Activity tab");
+        textview.setText("This is My Ride Activity tab");
         setContentView(textview);
 
         

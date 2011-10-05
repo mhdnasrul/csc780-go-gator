@@ -1,4 +1,4 @@
-package screen.main;
+package screen.level1;
 /*
  * Copyright (C) 2007 The Android Open Source Project
  *
@@ -27,6 +27,8 @@ import android.view.Window;
 import java.io.IOException;
 import java.util.List;
 
+import screen.main.SocketCamera;
+
 // ----------------------------------------------------------------------
 
 public class CameraActivity extends Activity {
@@ -51,7 +53,7 @@ public class CameraActivity extends Activity {
 class Preview extends SurfaceView implements SurfaceHolder.Callback {
     SurfaceHolder mHolder;
     Camera mCamera;
-
+    //SocketCamera mCamera;
     Preview(Context context) {
         super(context);
 
@@ -60,12 +62,14 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
         mHolder = getHolder();
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        //mHolder.setType(SurfaceHolder.SURFACE_TYPE_NORMAL);
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, acquire the camera and tell it where
         // to draw.
         mCamera = Camera.open();
+        //mCamera = SocketCamera.open();
         try {
            mCamera.setPreviewDisplay(holder);
         } catch (IOException exception) {
