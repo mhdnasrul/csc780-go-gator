@@ -1,5 +1,9 @@
 package screen.main;
 
+import screen.level1.CameraActivity;
+import screen.level1.HomeActivity;
+import screen.level1.MapActivity;
+import screen.level1.MoreActivity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -35,13 +39,13 @@ public class GoGatorActivity extends TabActivity {
         tabHost.addTab(spec);
 
         intent = new Intent().setClass(this, CameraActivity.class);
-        spec = tabHost.newTabSpec("camera").setIndicator("Camera",
+        spec = tabHost.newTabSpec("camera").setIndicator("Point It!",
                           res.getDrawable(R.drawable.ic_dialog_dialer))
                       .setContent(intent);
         tabHost.addTab(spec);
         
         intent = new Intent().setClass(this, MoreActivity.class);
-        spec = tabHost.newTabSpec("more").setIndicator("More",
+        spec = tabHost.newTabSpec("more").setIndicator("About Us!",
                           res.getDrawable(R.drawable.ic_dialog_info))
                       .setContent(intent);
         tabHost.addTab(spec);

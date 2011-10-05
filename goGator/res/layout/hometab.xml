@@ -13,14 +13,16 @@
                 	android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20px" 
-                    android:text="My Campus" />"
+                    android:text="My Campus" 
+                    android:onClick="MyCampus"/>
                     
                 <Button android:id="@+id/mycafe"
                 	android:layout_width="wrap_content"
                     android:layout_height="wrap_content" 
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="20px"
-                    android:text="My Cafe" />
+                    android:text="My Cafe" 
+                    android:onClick="MyCafe"/>
                     
                 <Button android:id="@+id/myvisit" 
                 	android:layout_width="wrap_content"
@@ -28,7 +30,7 @@
                     android:text="My Visit" 
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="100px"
-                    />
+                    android:onClick="MyVisit"/>
                     
                 <Button android:id="@+id/myride" 
                 	android:layout_width="wrap_content"
@@ -36,6 +38,7 @@
                  	android:text="My Ride" 
                  	android:layout_alignParentRight="true"
                  	android:layout_alignParentBottom="true"
-                 	android:layout_marginBottom="100px"/>
+                 	android:layout_marginBottom="100px"
+                 	android:onClick="MyRide"/>
             </RelativeLayout>
 </LinearLayout>
