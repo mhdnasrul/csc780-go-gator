@@ -18,3 +18,11 @@
  *  GPS and Navigation
 
  *  Icon graphics 
+
+==*References:*==
+
+ *  xmlvm.org/tutorial
+
+ *  stackoverflow.com
+
+------------------------------------------------------------------------ 
