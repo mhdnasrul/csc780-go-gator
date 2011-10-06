@@ -17,7 +17,7 @@
 
  *  GPS and Navigation
 
- *  Icon graphics 
+ *  Data population and Icon graphics 
 
 ==*References:*==
 
