@@ -7,9 +7,9 @@
 
  *  Created list views for !MyCampus, !MyCafe, !MyVisit 
  
- *  Displayed !Map and !Camera on clicking the respective buttons in the tab bar.
+ *  Displayed Map and Camera on clicking the respective buttons in the tab bar.
 
- *  Displayed !Map when !MapIt button is clicked in the list description screen
+ *  Displayed Map when !MapIt button is clicked in the list description screen
 
  *  Displayed description in the About us screen
 
