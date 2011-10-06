@@ -1,13 +1,20 @@
-#summary One-sentence summary of this page.
+#labels Journalentryforweek929-106
+=*Week (9/29 - 10/6)*=
 
-= Introduction =
+==*Completed:*==
 
-Add your content here.
+ *  Created the home screen and tab bar
 
+ *  Created list views for MyCampus, MyCafe, MyVisit 
+ 
+ *  Displayed Map and Camera on clicking the respective buttons in the tab bar.
 
-= Details =
+ *  Displayed Map when MapIt button is clicked in the list description screen
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ *  Displayed description in the About us screen
+
+==*In progress:*==
+
+ *  GPS and Camera augmentation
+
+ *  Icon graphics 
