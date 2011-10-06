@@ -1,4 +1,4 @@
-#labels Journalentryforweek929-106
+#labels Journalentry
 =*Week (9/29 - 10/6)*=
 
 ==*Completed:*==
