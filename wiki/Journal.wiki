@@ -5,16 +5,16 @@
 
  *  Created the home screen and tab bar
 
- *  Created list views for !MyCampus, !MyCafe, !MyVisit 
+ *  Created list views for !MyCampus, !MyCafe, !MyVisit, !MyRide 
  
  *  Displayed Map and Camera on clicking the respective buttons in the tab bar.
 
- *  Displayed Map when !MapIt button is clicked in the list description screen
+ *  Displayed Map when !MapIt button is clicked in the list description screen and !MyRide screen
 
  *  Displayed description in the About us screen
 
 ==*In progress:*==
 
- *  GPS and Camera augmentation
+ *  GPS and Navigation
 
  *  Icon graphics 
