@@ -31,6 +31,8 @@
         
 		<activity android:name="screen.level2.MyCafeActivity"></activity>
 		<activity android:name="screen.level2.MyCampusActivity"></activity>
+		<activity android:name="screen.level2.MyCampusBuildingActivity"></activity>
+		<activity android:name="screen.level2.MyCampusDeptActivity"></activity>
 		<activity android:name="screen.level2.MyRideActivity"></activity>
 		<activity android:name="screen.level2.MyVisitActivity"></activity>
 		
