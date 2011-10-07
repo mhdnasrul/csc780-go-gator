@@ -27,26 +27,26 @@ public class GoGatorActivity extends TabActivity {
 
         // Initialize a TabSpec for each tab and add it to the TabHost
         spec = tabHost.newTabSpec("home").setIndicator("Home",
-                          res.getDrawable(R.drawable.ic_dialog_email))
+                          res.getDrawable(R.drawable.ic_home))
                       .setContent(intent);
         tabHost.addTab(spec);
 
         // Do the same for the other tabs
         intent = new Intent().setClass(this, MapActivity.class);
         spec = tabHost.newTabSpec("map").setIndicator("Map",
-                          res.getDrawable(R.drawable.ic_dialog_map))
+                          res.getDrawable(R.drawable.ic_map))
                       .setContent(intent);
         tabHost.addTab(spec);
 
         intent = new Intent().setClass(this, CameraActivity.class);
         spec = tabHost.newTabSpec("camera").setIndicator("Point It!",
-                          res.getDrawable(R.drawable.ic_dialog_dialer))
+                          res.getDrawable(R.drawable.ic_camera))
                       .setContent(intent);
         tabHost.addTab(spec);
         
         intent = new Intent().setClass(this, MoreActivity.class);
         spec = tabHost.newTabSpec("more").setIndicator("About Us!",
-                          res.getDrawable(R.drawable.ic_dialog_info))
+                          res.getDrawable(R.drawable.ic_info))
                       .setContent(intent);
         tabHost.addTab(spec);
 

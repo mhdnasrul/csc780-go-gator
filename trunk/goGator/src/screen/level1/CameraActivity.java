@@ -27,7 +27,7 @@ import android.view.Window;
 import java.io.IOException;
 import java.util.List;
 
-import screen.main.SocketCamera;
+//import screen.main.SocketCamera;
 
 // ----------------------------------------------------------------------
 
