@@ -2,7 +2,9 @@ package screen.level2;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.TabActivity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,60 +12,48 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
+import screen.level1.CameraActivity;
+import screen.level1.HomeActivity;
+import screen.level1.MapActivity;
 import screen.level1.MoreActivity;
 import screen.level3.MyCampusDetailActivity;
 import screen.main.R;
  
-public class MyCampusActivity extends ListActivity {
+public class MyCampusActivity extends TabActivity {
  
     final private static String[] BUILDINGS = { "ADM", "BUS", "SCI", "TH" };
  
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-//        FrameLayout frame = (FrameLayout) findViewById(R.id.tabcontent);
-//        frame.removeAllViews();
-        
+    	        super.onCreate(savedInstanceState);
+    	        setContentView(R.layout.main);
+    	        
+    	        Resources res = getResources(); // Resource object to get Drawables
+    	        TabHost tabHost = getTabHost();  // The activity TabHost
+    	        TabHost.TabSpec spec;  // Resusable TabSpec for each tab
+    	        Intent intent;  // Reusable Intent for each tab
 
-        
-        setListAdapter(new ArrayAdapter<String>(this, R.layout.building_list, BUILDINGS));
-        
-        final ListView listView = getListView();
-//        frame.addView(listView); 
-        listView.setOnItemClickListener(new OnItemClickListener() {
- 
-            /**
-             * Callback that will be invoked whenever an item from the list has
-             * been selected. 'parent' is the AdapterView where the click
-             * happened. 'view' is the view within the AdapterView that was
-             * clicked (this will be a view provided by the adapter). 'position'
-             * is the position of the view in the adapter. 'id' is the row id of
-             * the item that was clicked.
-             */
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                /**
-//                 * Whenever an item of the ListActivity is selected, show an
-//                 * AlertDialog to inform which item was selected. The way the
-//                 * AlertDialog is built up is an example of a fluent interface.
-//                 */
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MyCampusActivity.this);
-//                builder.setTitle("Selection").setMessage(((TextView) view).getText())
-//                        .setCancelable(false).setPositiveButton("Ok", null);
-//                /**
-//                 * Create and show the model AlertDialog.
-//                 */
-//                builder.create().show();
-            	launchDesc(listView);
-            }
- 
-        });
- 
-    }
-    
-    public void launchDesc(View view){
-		Intent intent = new Intent(this, MyCampusDetailActivity.class);
-		startActivity(intent);	
-	}
+    	        // Create an Intent to launch an Activity for the tab (to be reused)
+    	        intent = new Intent().setClass(this, MyCampusBuildingActivity.class);
+
+    	        // Initialize a TabSpec for each tab and add it to the TabHost
+    	        spec = tabHost.newTabSpec("building").setIndicator("Building",
+    	                          res.getDrawable(R.drawable.ic_home))
+    	                      .setContent(intent);
+    	        tabHost.addTab(spec);
+
+    	        // Do the same for the other tabs
+    	        intent = new Intent().setClass(this, MyCampusDeptActivity.class);
+    	        spec = tabHost.newTabSpec("dept").setIndicator("Department",
+    	                          res.getDrawable(R.drawable.ic_map))
+    	                      .setContent(intent);
+    	        tabHost.addTab(spec);
+
+
+
+    	        tabHost.setCurrentTab(0);
+    	     
+    	    }
 }
