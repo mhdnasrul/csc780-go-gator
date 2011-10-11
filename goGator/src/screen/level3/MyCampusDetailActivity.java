@@ -1,6 +1,6 @@
 package screen.level3;
 
-import screen.level1.MapActivity;
+import screen.level1.MapsActivity;
 import screen.main.R;
 import android.app.Activity;
 import android.content.Intent;
@@ -24,7 +24,7 @@ public class MyCampusDetailActivity extends Activity {
     }
     
     public void mapIt(View view){
-		Intent intent = new Intent(this, MapActivity.class);
+		Intent intent = new Intent(this, MapsActivity.class);
 		startActivity(intent);	
 	}
 

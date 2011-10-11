@@ -16,7 +16,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import screen.level1.CameraActivity;
 import screen.level1.HomeActivity;
-import screen.level1.MapActivity;
+import screen.level1.MapsActivity;
 import screen.level1.MoreActivity;
 import screen.level3.MyCampusDetailActivity;
 import screen.main.R;

@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="screen.level1.MapActivity"/>
+        <activity android:name="screen.level1.MapsActivity"/>
        <uses-library android:name="com.google.android.maps" />
        
         <activity android:name="screen.level1.HomeActivity"></activity>
