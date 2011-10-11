@@ -2,7 +2,7 @@ package screen.main;
 
 import screen.level1.CameraActivity;
 import screen.level1.HomeActivity;
-import screen.level1.MapActivity;
+import screen.level1.MapsActivity;
 import screen.level1.MoreActivity;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -32,7 +32,7 @@ public class GoGatorActivity extends TabActivity {
         tabHost.addTab(spec);
 
         // Do the same for the other tabs
-        intent = new Intent().setClass(this, MapActivity.class);
+        intent = new Intent().setClass(this, MapsActivity.class);
         spec = tabHost.newTabSpec("map").setIndicator("Map",
                           res.getDrawable(R.drawable.ic_map))
                       .setContent(intent);
