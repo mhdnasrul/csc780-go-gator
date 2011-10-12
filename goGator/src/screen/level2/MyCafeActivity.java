@@ -14,56 +14,49 @@ import android.widget.TextView;
 import screen.level1.MoreActivity;
 import screen.level3.MyCampusDetailActivity;
 import screen.main.R;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
  
 public class MyCafeActivity extends ListActivity {
  
-    final private static String[] BUILDINGS = { "Cafe 1", "Cafe 2", "Cafe 3", "Cafe 4" };
- 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+     public void onCreate(Bundle icicle) {
+		super.onCreate(icicle);
+		
+		String[] BUILDINGS = new String[] { "Cafe 1", "Cafe 2", "Cafe 3", "Cafe 4" };
+		
+       setListAdapter(new ArrayAdapter<String>(this, R.layout.building_list, BUILDINGS));
+     }
+       // final ListView listView = getListView();
         
-//        FrameLayout frame = (FrameLayout) findViewById(R.id.tabcontent);
-//        frame.removeAllViews();
-        
+        /**	@Override
+        	protected void onListItemClick(ListView l, View v, int position, long id) {
+        		super.onListItemClick(l, v, position, id);
+        		// Get the item that was clicked
+        		Object o = this.getListAdapter().getItem(position);
+        		String keyword = o.toString();
+        		Toast.makeText(this, "You selected: " + keyword, Toast.LENGTH_LONG).show();
+        	} */
+        	@Override
+            public void onListItemClick( ListView parent, View v, int position, long id)  {
+               Intent intent = new Intent(MyCafeActivity.this, MyCampusDetailActivity.class);
+                Object o = this.getListAdapter().getItem(position);
+              //  String keyword = o.toString();
+                intent.putExtra("keyword", o.toString());
+                startActivity(intent);
+             //   startActivityForResult(intent, keyword);
+                
+             //   Intent myIntent = new Intent(v.getContext(), MyCampusDetailActivity.class);
+             //   startActivityForResult(myIntent, 0);
+             //   Toast.makeText(this,keyword, Toast.LENGTH_LONG).show();
 
-        
-        setListAdapter(new ArrayAdapter<String>(this, R.layout.building_list, BUILDINGS));
-        
-        final ListView listView = getListView();
-//        frame.addView(listView); 
-        listView.setOnItemClickListener(new OnItemClickListener() {
- 
-            /**
-             * Callback that will be invoked whenever an item from the list has
-             * been selected. 'parent' is the AdapterView where the click
-             * happened. 'view' is the view within the AdapterView that was
-             * clicked (this will be a view provided by the adapter). 'position'
-             * is the position of the view in the adapter. 'id' is the row id of
-             * the item that was clicked.
-             */
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                /**
-//                 * Whenever an item of the ListActivity is selected, show an
-//                 * AlertDialog to inform which item was selected. The way the
-//                 * AlertDialog is built up is an example of a fluent interface.
-//                 */
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MyCampusActivity.this);
-//                builder.setTitle("Selection").setMessage(((TextView) view).getText())
-//                        .setCancelable(false).setPositiveButton("Ok", null);
-//                /**
-//                 * Create and show the model AlertDialog.
-//                 */
-//                builder.create().show();
-            	launchDesc(listView);
-            }
- 
-        });
- 
+                
+                finish();
+            } 
     }
-    
+  /**  
     public void launchDesc(View view){
 		Intent intent = new Intent(this, MyCampusDetailActivity.class);
 		startActivity(intent);	
 	}
-}
+}*/
