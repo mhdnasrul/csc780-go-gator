@@ -54,126 +54,126 @@ import android.widget.TextView;
  * http://code.google.com/android/add-ons/google-apis/mapkey.html
  */
 public class MyRideActivity extends com.google.android.maps.MapActivity {
-	/** Called when the activity is first created. */
+        /** Called when the activity is first created. */
 
-	 private MapView mapView;
-	 private LocationManager lm;
-	 private LocationListener ll;
-	 private MapController mc;
-	 GeoPoint p = new GeoPoint(37723410, -122478930);
-	 Drawable defaultMarker = null;
+         private MapView mapView;
+         private LocationManager lm;
+         private LocationListener ll;
+         private MapController mc;
+         GeoPoint p = new GeoPoint(37723410, -122478930);
+         Drawable defaultMarker = null;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.maptab);
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.maptab);
 
-	    mapView = (MapView)findViewById(R.id.mapview);
-	    //show zoom in/out buttons
-	    mapView.setBuiltInZoomControls(true);
-	    //Standard view of the map(map/sat)
-	    mapView.setSatellite(false);
-	    //get controller of the map for zooming in/out
-	    mc = mapView.getController();
-	    // Zoom Level
-	    mc.setZoom(18); 
+            mapView = (MapView)findViewById(R.id.mapview);
+            //show zoom in/out buttons
+            mapView.setBuiltInZoomControls(true);
+            //Standard view of the map(map/sat)
+            mapView.setSatellite(false);
+            //get controller of the map for zooming in/out
+            mc = mapView.getController();
+            // Zoom Level
+            mc.setZoom(18); 
 
-	    MyLocationOverlay myLocationOverlay = new MyLocationOverlay();
-	    List<Overlay> list = mapView.getOverlays();
-	    list.add(myLocationOverlay);
+            MyLocationOverlay myLocationOverlay = new MyLocationOverlay();
+            List<Overlay> list = mapView.getOverlays();
+            list.add(myLocationOverlay);
 
-	    lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
-	    ll = new MyLocationListener();
+            ll = new MyLocationListener();
 
-	    lm.requestLocationUpdates(
-	            LocationManager.GPS_PROVIDER,
-	            0,
-	            0,
-	            ll);
+            lm.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    0,
+                    0,
+                    ll);
 
-	    //Get the current location in start-up
-	    p = new GeoPoint(
-	           (int)(lm.getLastKnownLocation(
-	            LocationManager.GPS_PROVIDER)
-	            .getLatitude()*1000000),
-	           (int)(lm.getLastKnownLocation(
-	            LocationManager.GPS_PROVIDER)
-	            .getLongitude()*1000000));
-	           mc.animateTo(p);
-
-
-
-
-
-
-
-	}
+            //Get the current location in start-up
+            p = new GeoPoint(
+                   (int)(lm.getLastKnownLocation(
+                    LocationManager.GPS_PROVIDER)
+                    .getLatitude()*1000000),
+                   (int)(lm.getLastKnownLocation(
+                    LocationManager.GPS_PROVIDER)
+                    .getLongitude()*1000000));
+                   mc.animateTo(p);
 
 
 
 
 
 
-	    protected class MyLocationOverlay extends com.google.android.maps.Overlay {
 
-	        @Override
-	        public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-	            Paint paint = new Paint();
-
-	            super.draw(canvas, mapView, shadow);
-	            // Converts lat/lng-Point to OUR coordinates on the screen.
-	            Point myScreenCoords = new Point();
-
-	            mapView.getProjection().toPixels(p, myScreenCoords);
-
-	            paint.setStrokeWidth(1);
-	            paint.setARGB(255, 255, 255, 255);
-	            paint.setStyle(Paint.Style.STROKE);
-
-	            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pointer);
-
-	            canvas.drawBitmap(bmp, myScreenCoords.x, myScreenCoords.y, paint);
-	           // canvas.drawText("I am here...", myScreenCoords.x, myScreenCoords.y, paint);
-	            return true;
-	        }
-	    }
+        }
 
 
-	private class MyLocationListener implements LocationListener{
 
-	      public void onLocationChanged(Location argLocation) {
-	       // TODO Auto-generated method stub
-	       p = new GeoPoint(
-	        (int)(argLocation.getLatitude()*1000000),
-	        (int)(argLocation.getLongitude()*1000000));
-	       /*
-	        * it will show a message on 
-	        * location change
-	       Toast.makeText(getBaseContext(),
-	               "New location latitude [" +argLocation.getLatitude() +
-	               "] longitude [" + argLocation.getLongitude()+"]",
-	               Toast.LENGTH_SHORT).show();
-	        */
 
-	       mc.animateTo(p);
 
-	      }
 
-	      public void onProviderDisabled(String provider) {
-	       // TODO Auto-generated method stub
-	      }
+            protected class MyLocationOverlay extends com.google.android.maps.Overlay {
 
-	      public void onProviderEnabled(String provider) {
-	       // TODO Auto-generated method stub
-	      }
+                @Override
+                public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
+                    Paint paint = new Paint();
 
-	      public void onStatusChanged(String provider,
-	        int status, Bundle extras) {
-	       // TODO Auto-generated method stub
-	      }
-	     }    
-	protected boolean isRouteDisplayed() {
-	    return false;
-	}
+                    super.draw(canvas, mapView, shadow);
+                    // Converts lat/lng-Point to OUR coordinates on the screen.
+                    Point myScreenCoords = new Point();
+
+                    mapView.getProjection().toPixels(p, myScreenCoords);
+
+                    paint.setStrokeWidth(1);
+                    paint.setARGB(255, 255, 255, 255);
+                    paint.setStyle(Paint.Style.STROKE);
+
+                    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pointer);
+
+                    canvas.drawBitmap(bmp, myScreenCoords.x, myScreenCoords.y, paint);
+                   // canvas.drawText("I am here...", myScreenCoords.x, myScreenCoords.y, paint);
+                    return true;
+                }
+            }
+
+
+        private class MyLocationListener implements LocationListener{
+
+              public void onLocationChanged(Location argLocation) {
+               // TODO Auto-generated method stub
+               p = new GeoPoint(
+                (int)(argLocation.getLatitude()*1000000),
+                (int)(argLocation.getLongitude()*1000000));
+               /*
+                * it will show a message on 
+                * location change
+               Toast.makeText(getBaseContext(),
+                       "New location latitude [" +argLocation.getLatitude() +
+                       "] longitude [" + argLocation.getLongitude()+"]",
+                       Toast.LENGTH_SHORT).show();
+                */
+
+               mc.animateTo(p);
+
+              }
+
+              public void onProviderDisabled(String provider) {
+               // TODO Auto-generated method stub
+              }
+
+              public void onProviderEnabled(String provider) {
+               // TODO Auto-generated method stub
+              }
+
+              public void onStatusChanged(String provider,
+                int status, Bundle extras) {
+               // TODO Auto-generated method stub
+              }
+             }    
+        protected boolean isRouteDisplayed() {
+            return false;
+        }
 }
