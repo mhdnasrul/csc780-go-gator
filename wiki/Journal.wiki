@@ -37,7 +37,7 @@
 
  *  Added View connectors between screen.level2 and screen.level3 
  
- *  Added GPS Current location for MyRide 
+ *  Added GPS Current location for !MyRide 
 
  *  Added walking distance between 2 geo locations, where first is Current geo location
 
