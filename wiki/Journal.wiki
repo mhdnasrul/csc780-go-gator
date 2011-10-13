@@ -27,4 +27,24 @@
 
  *  stackoverflow.com
 
+------------------------------------------------------------------------
+
+=*Week (10/6 - 10/13)*=
+
+==*Completed:*==
+
+ *  Added markers to map for all the buildings on campus
+
+ *  Added View connectors between screen.level2 and screen.level3 
+ 
+ *  Added GPS Current location for MyRide 
+
+ *  Added walking distance between 2 geo locations, where first is Current geo location
+
+==*In progress:*==
+
+ *  GPS and Navigation for building coordinates
+
+ *  Camera augmentation
+
  
