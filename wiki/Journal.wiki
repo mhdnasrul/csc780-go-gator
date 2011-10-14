@@ -40,15 +40,15 @@
      The item that was clicked on in the list view of screen.level2 is passed as an intent value to the view screen screen.level3. The clicked item is showed in the !MyCampusDetail screen.
  
  *  Added GPS Current location for !MyRide
-     The current location can be obtained on the map. 
+     The current location can be obtained on the map by providing geo coordinates through DDMS or telnet. 
 
  *  Added walking distance between 2 geo locations, where first is Current geo location
-     The route between any two locations can be obtained by the !MapActivity.
+     The route between any two locations can be obtained by the !MapActivity by setting the destination location through DDMS or telnet.
 
 ==*In progress:*==
 
  *  GPS and Navigation for building coordinates
-     Improvement of the route calculation.
+     Improvement of the route calculation and geo coordinate specification.
 
  *  Camera augmentation
 
