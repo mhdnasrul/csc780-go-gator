@@ -25,13 +25,12 @@ public class MyCampusDetailActivity extends Activity {
         
         Bundle cafeBundle = getIntent().getExtras();
         String value2 = cafeBundle.getString("keyword");
-        EditText text2 = (EditText) findViewById(R.id.mycafeEditText);
-		text2.setText(value2);
+      //  EditText text2 = (EditText) findViewById(R.id.mycafeEditText);
+        TextView  text2 = (TextView) findViewById(R.id.descTextView);
+        text2.setText(value2);
 		
 	}
 
-    
-    
     public void mapIt(View view){
 		Intent intent = new Intent(this, MapsActivity.class);
 		startActivity(intent);	
