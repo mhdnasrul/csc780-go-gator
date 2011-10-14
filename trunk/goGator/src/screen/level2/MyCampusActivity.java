@@ -40,14 +40,14 @@ public class MyCampusActivity extends TabActivity {
 
     	        // Initialize a TabSpec for each tab and add it to the TabHost
     	        spec = tabHost.newTabSpec("building").setIndicator("Building",
-    	                          res.getDrawable(R.drawable.ic_home))
+    	                          res.getDrawable(R.drawable.ic_building))
     	                      .setContent(intent);
     	        tabHost.addTab(spec);
 
     	        // Do the same for the other tabs
     	        intent = new Intent().setClass(this, MyCampusDeptActivity.class);
     	        spec = tabHost.newTabSpec("dept").setIndicator("Department",
-    	                          res.getDrawable(R.drawable.ic_map))
+    	                          res.getDrawable(R.drawable.ic_department))
     	                      .setContent(intent);
     	        tabHost.addTab(spec);
 
