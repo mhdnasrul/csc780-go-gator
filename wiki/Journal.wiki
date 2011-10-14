@@ -34,17 +34,23 @@
 ==*Completed:*==
 
  *  Added markers to map for all the buildings on campus
+     Markers are added to the map according to the latitude and longitude points. 
 
  *  Added View connectors between screen.level2 and screen.level3 
+     The item that was clicked on in the list view of screen.level2 is passed as an intent value to the view screen screen.level3. The clicked item is showed in the !MyCampusDetail screen.
  
- *  Added GPS Current location for !MyRide 
+ *  Added GPS Current location for !MyRide
+     The current location can be obtained on the map. 
 
  *  Added walking distance between 2 geo locations, where first is Current geo location
+     The route between any two locations can be obtained by the !MapActivity.
 
 ==*In progress:*==
 
  *  GPS and Navigation for building coordinates
+     Improvement of the route calculation.
 
  *  Camera augmentation
+
 
  
