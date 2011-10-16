@@ -1,5 +1,7 @@
 package screen.level2;
 
+import main.data.DeptItems;
+import main.overlay.MyOverlayItem;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,24 +13,22 @@ import screen.main.R;
  
 public class MyCampusDeptActivity extends ListActivity {
  
-   // final private static String[] DEPT = { "CS Dept", "EE Dept", "Business Dept", "Arts Dept" };
- 
     @Override
-    public void onCreate(Bundle icicle) {
-		super.onCreate(icicle);
-       
-		String[] BUILDINGS = new String[] { "CS Dept", "EE Dept", "Business Dept", "Arts Dept" };
-        
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.building_list, BUILDINGS));
+    public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setListAdapter(new ArrayAdapter<MyOverlayItem>(this, R.layout.building_list, DeptItems.getDeptItems()));
     }
         
-               	public void onListItemClick( ListView parent, View v, int position, long id)  {
-                Intent intent = new Intent(MyCampusDeptActivity.this, MyCampusDetailActivity.class);
-                 Object o = this.getListAdapter().getItem(position);
-                 intent.putExtra("keyword", o.toString());
-                 startActivity(intent);
-                 finish();
-            } 
-    }
+   	public void onListItemClick( ListView parent, View v, int position, long id)  {
+	    Intent intent = new Intent(MyCampusDeptActivity.this, MyCampusDetailActivity.class);
+	    MyOverlayItem deptItem = (MyOverlayItem) this.getListAdapter().getItem(position);
+	    intent.putExtra("index", deptItem.getId()+"");
+        intent.putExtra("type", "dept");
+        intent.putExtra("desc", deptItem.getSnippet());
+	    intent.putExtra("geolat", deptItem.getPoint().getLatitudeE6()+"");
+	    intent.putExtra("geolong", deptItem.getPoint().getLongitudeE6()+"");
+	     startActivity(intent);
+    } 
+}
     
  

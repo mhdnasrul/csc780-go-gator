@@ -1,4 +1,4 @@
-package screen.level2;
+package screen.level2.overlay;
 
 import android.graphics.Bitmap; 
 import android.graphics.Canvas; 

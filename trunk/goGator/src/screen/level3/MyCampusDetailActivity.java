@@ -14,26 +14,34 @@ import android.widget.TextView;
 import android.widget.EditText;
 
 public class MyCampusDetailActivity extends Activity {
-    /** Called when the activity is first created. */
+    private String geolat;
+    private String geolong;
+    private String index;
+    private String type;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-//        TextView textview = new TextView(this);
-//        textview.setText("This is the My Campus Detail tab");
         setContentView(R.layout.desc);
-        
         Bundle cafeBundle = getIntent().getExtras();
-        String value2 = cafeBundle.getString("keyword");
-      //  EditText text2 = (EditText) findViewById(R.id.mycafeEditText);
-        TextView  text2 = (TextView) findViewById(R.id.descTextView);
-        text2.setText(value2);
-		
+        String desc = cafeBundle.getString("desc");
+        geolat = cafeBundle.getString("geolat");
+        geolong = cafeBundle.getString("geolong");
+        index = cafeBundle.getString("index");
+        type = cafeBundle.getString("type");
+        TextView  desctv = (TextView) findViewById(R.id.descTextView);
+        desctv.setText(desc);
 	}
 
     public void mapIt(View view){
 		Intent intent = new Intent(this, MapsActivity.class);
-		startActivity(intent);	
+		intent.putExtra("from", "mapitbutton");
+		intent.putExtra("index", index);
+        intent.putExtra("type", type);
+		intent.putExtra("geolat", geolat);
+		intent.putExtra("geolong", geolong);
+		startActivity(intent);
+		finish();
 	}
 
 }
