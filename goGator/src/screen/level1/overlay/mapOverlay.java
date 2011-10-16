@@ -1,22 +1,23 @@
-// http://developer.android.com/resources/tutorials/views/hello-mapview.html
-package screen.level1;
+package screen.level1.overlay;
 
 import java.util.ArrayList;
+
+import main.overlay.MyOverlayItem;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-public class mapOverlay extends ItemizedOverlay<OverlayItem> {
+public class mapOverlay extends ItemizedOverlay<MyOverlayItem> {
 	
-	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+	private ArrayList<MyOverlayItem> mOverlays = new ArrayList<MyOverlayItem>();
 	
 	private Context context;
 	
 	public mapOverlay(Drawable defaultMarker) {
-			  super(boundCenterBottom(defaultMarker));
-			}
+		super(boundCenterBottom(defaultMarker));
+	}
 	
 	public mapOverlay(Drawable defaultMarker, Context context) {
 		  this(defaultMarker);
@@ -24,7 +25,7 @@ public class mapOverlay extends ItemizedOverlay<OverlayItem> {
 	}
 	
 	@Override
-	protected OverlayItem createItem(int i) {
+	protected MyOverlayItem createItem(int i) {
 		  return mOverlays.get(i);
 		}
 		
@@ -43,7 +44,7 @@ public class mapOverlay extends ItemizedOverlay<OverlayItem> {
 	  return true;
 	} 
 	
-	public void addOverlay(OverlayItem overlay) {
+	public void addOverlay(MyOverlayItem overlay) {
 	    mOverlays.add(overlay);
 	    this.populate();
 	}

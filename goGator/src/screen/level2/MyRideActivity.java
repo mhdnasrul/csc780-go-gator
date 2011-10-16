@@ -32,6 +32,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import screen.level2.overlay.rideOverlay;
 import screen.main.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
@@ -71,7 +72,7 @@ public class MyRideActivity extends com.google.android.maps.MapActivity {
          private LocationManager lm;
          private LocationListener ll;
          private MapController mc;
-         GeoPoint p = new GeoPoint(37723410, -122478930);
+         public GeoPoint currLocation;
          Drawable defaultMarker = null;
 
         @Override
@@ -104,14 +105,15 @@ public class MyRideActivity extends com.google.android.maps.MapActivity {
                     ll);
 
             //Get the current location in start-up
-            p = new GeoPoint(
+            currLocation = new GeoPoint(
                    (int)(lm.getLastKnownLocation(
                     LocationManager.GPS_PROVIDER)
                     .getLatitude()*1000000),
                    (int)(lm.getLastKnownLocation(
                     LocationManager.GPS_PROVIDER)
                     .getLongitude()*1000000));
-                   mc.animateTo(p);
+            
+            mc.animateTo(currLocation);
 
 	
 //	           double src_lat = 25.04202; // the testing source 
@@ -126,45 +128,45 @@ public class MyRideActivity extends com.google.android.maps.MapActivity {
 	           GeoPoint destGeoPoint = new GeoPoint((int) (dest_lat * 1E6), 
 	           (int) (dest_long * 1E6)); 
 
-	           DrawPath(p, destGeoPoint, Color.GREEN, mapView); 
+//	           DrawPath(currLocation, destGeoPoint, Color.GREEN, mapView); 
 
         }
 
 
+        public class MyLocationOverlay extends com.google.android.maps.Overlay {
 
+            @Override
+            public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
+                Paint paint = new Paint();
 
+                super.draw(canvas, mapView, shadow);
+                // Converts lat/lng-Point to OUR coordinates on the screen.
+                Point myScreenCoords = new Point();
 
+                mapView.getProjection().toPixels(currLocation, myScreenCoords);
 
-            protected class MyLocationOverlay extends com.google.android.maps.Overlay {
+                paint.setStrokeWidth(1);
+                paint.setARGB(255, 255, 255, 255);
+                paint.setStyle(Paint.Style.STROKE);
 
-                @Override
-                public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-                    Paint paint = new Paint();
+                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pointer);
 
-                    super.draw(canvas, mapView, shadow);
-                    // Converts lat/lng-Point to OUR coordinates on the screen.
-                    Point myScreenCoords = new Point();
-
-                    mapView.getProjection().toPixels(p, myScreenCoords);
-
-                    paint.setStrokeWidth(1);
-                    paint.setARGB(255, 255, 255, 255);
-                    paint.setStyle(Paint.Style.STROKE);
-
-                    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pointer);
-
-                    canvas.drawBitmap(bmp, myScreenCoords.x, myScreenCoords.y, paint);
-                   // canvas.drawText("I am here...", myScreenCoords.x, myScreenCoords.y, paint);
-                    return true;
-                }
+                canvas.drawBitmap(bmp, myScreenCoords.x, myScreenCoords.y, paint);
+               // canvas.drawText("I am here...", myScreenCoords.x, myScreenCoords.y, paint);
+                return true;
             }
+   }
+
+
+
+           
 
 
         private class MyLocationListener implements LocationListener{
 
               public void onLocationChanged(Location argLocation) {
                // TODO Auto-generated method stub
-               p = new GeoPoint(
+            	  currLocation = new GeoPoint(
                 (int)(argLocation.getLatitude()*1000000),
                 (int)(argLocation.getLongitude()*1000000));
                /*
@@ -176,7 +178,7 @@ public class MyRideActivity extends com.google.android.maps.MapActivity {
                        Toast.LENGTH_SHORT).show();
                 */
 
-               mc.animateTo(p);
+               mc.animateTo(currLocation);
 
               }
 
@@ -269,4 +271,5 @@ public class MyRideActivity extends com.google.android.maps.MapActivity {
 	e.printStackTrace(); 
 	} 
 	}
+
 }

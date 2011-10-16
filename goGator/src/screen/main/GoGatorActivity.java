@@ -1,5 +1,9 @@
 package screen.main;
 
+import main.data.BuildingItems;
+import main.data.CafeItems;
+import main.data.DeptItems;
+import main.data.VisitItems;
 import screen.level1.CameraActivity;
 import screen.level1.HomeActivity;
 import screen.level1.MapsActivity;
@@ -24,7 +28,6 @@ public class GoGatorActivity extends TabActivity {
 
         // Create an Intent to launch an Activity for the tab (to be reused)
         intent = new Intent().setClass(this, HomeActivity.class);
-
         // Initialize a TabSpec for each tab and add it to the TabHost
         spec = tabHost.newTabSpec("home").setIndicator("Home",
                           res.getDrawable(R.drawable.ic_home))
@@ -33,6 +36,7 @@ public class GoGatorActivity extends TabActivity {
 
         // Do the same for the other tabs
         intent = new Intent().setClass(this, MapsActivity.class);
+        intent.putExtra("from", "tab");
         spec = tabHost.newTabSpec("map").setIndicator("Map",
                           res.getDrawable(R.drawable.ic_map))
                       .setContent(intent);
@@ -51,6 +55,11 @@ public class GoGatorActivity extends TabActivity {
         tabHost.addTab(spec);
 
         tabHost.setCurrentTab(0);
-     
+        
+        //Setting the lists
+        new BuildingItems();
+        new DeptItems();
+        new CafeItems();
+        new VisitItems();
     }
 }
