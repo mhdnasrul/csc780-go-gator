@@ -48,6 +48,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -61,13 +62,14 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.Projection;
 
 public class MapsActivity extends MapActivity {
 	
 	private LocationManager lm;
     private LocationListener ll;
     private MapController mc;
-    public GeoPoint currLocation;
+    public GeoPoint currLocation,destLocation;
     
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,6 +111,9 @@ public class MapsActivity extends MapActivity {
          if(from.equalsIgnoreCase("tab")){
         	 //To add all building markers on Map
         	 mapOverlays.add(new markerOverlay(drawable,this,BuildingItems.getBuildingItems()).getItemizedoverlay());
+        	 
+        	 //For default Arrow Direction
+        	 destLocation = new GeoPoint(37722734,-122478966);
          }
          else if(from.equalsIgnoreCase("mapitbutton")){
         	 //Place Destination Marker
@@ -130,10 +135,10 @@ public class MapsActivity extends MapActivity {
         	 //Get GeoLocation
         	 double dest_lat =  Double.parseDouble(flowbundle.getString("geolat")); 
 	         double dest_long = Double.parseDouble(flowbundle.getString("geolong")); 
-	         GeoPoint destGeoPoint = new GeoPoint((int) (dest_lat),(int) (dest_long));
+	         destLocation = new GeoPoint((int) (dest_lat),(int) (dest_long));
 	         
 	         //Draw Path from source to Destination
-	         DrawPath(currLocation, destGeoPoint, Color.GREEN, mapView); 
+	         DrawPath(currLocation, destLocation, Color.GREEN, mapView); 
          }
          
          mc = mapView.getController();
@@ -150,24 +155,58 @@ public class MapsActivity extends MapActivity {
 
         @Override
         public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-            Paint paint = new Paint();
-
-            super.draw(canvas, mapView, shadow);
-            // Converts lat/lng-Point to OUR coordinates on the screen.
-            Point myScreenCoords = new Point();
-
-            mapView.getProjection().toPixels(currLocation, myScreenCoords);
-
-            paint.setStrokeWidth(1);
-            paint.setARGB(255, 255, 255, 255);
-            paint.setStyle(Paint.Style.STROKE);
-
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pointer);
-
-            canvas.drawBitmap(bmp, myScreenCoords.x, myScreenCoords.y, paint);
-           // canvas.drawText("I am here...", myScreenCoords.x, myScreenCoords.y, paint);
+        	super.draw(canvas, mapView, shadow);
+        	
+        	 Paint paint = new Paint();
+             GeoPoint gp1=currLocation;
+             GeoPoint gp2=destLocation;
+             Point point1= new Point();
+             Point point2= new Point();
+             
+             //Get GeoLocation projects on plane and save it to Points.
+             Projection projection = mapView.getProjection();
+             projection.toPixels(gp1, point1);
+             projection.toPixels(gp2, point2);
+             Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.arrow);
+             
+             //Find Angle between two planar points in radians
+             float angle = findAngle(point1,point2);
+             
+             //Put arrow in right location on Map and give it the calculated angle
+             Matrix matrix = new Matrix();
+             matrix.postTranslate(-25, -25);
+             matrix.postRotate(angle);
+             matrix.postTranslate(point1.x, point1.y);
+             
+             //Set paint parameters
+             paint.setAntiAlias(true);
+             paint.setFilterBitmap(true);
+             
+             //Finally Draw it with calculated matrix
+             canvas.drawBitmap(bmp, matrix, paint);
+             
             return true;
         }
+
+		private float findAngle(Point point1, Point point2) {
+			double dlon = point2.x - point1.x;
+			double dlat = point2.y - point1.y;
+			
+			//Formula 1
+			//Keeping this formula to switch between accuracy and fast response.
+//          double a = (Math.sin(dlat / 2) * Math.sin(dlat / 2)) + Math.cos(gp1.getLatitudeE6()) * Math.cos(gp2.getLatitudeE6()) * (Math.sin(dlon / 2) * Math.sin(dlon / 2));
+//          double angle = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			
+			//Formula 2
+			double angle = Math.atan2(dlat, dlon);
+          
+			//Convert Degrees to Radians
+			angle = angle*180/Math.PI;
+          
+			return (float) angle;
+		}
+
+		
     }
   
     private class MyLocationListener implements LocationListener{

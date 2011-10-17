@@ -19,7 +19,7 @@ public class CafeItems {
 	public CafeItems(){
 		cafeItems = new ArrayList<MyOverlayItem>();
 		
-		for(int i=0;i<cafeData[0].length;i++)
+		for(int i=0;i<cafeData.length;i++)
 			cafeItems.add(new MyOverlayItem(new GeoPoint
 								(Integer.parseInt(cafeData[i][0]), Integer.parseInt(cafeData[i][1])), 
 								cafeData[i][2], cafeData[i][3],i));

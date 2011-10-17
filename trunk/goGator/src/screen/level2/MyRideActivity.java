@@ -149,7 +149,7 @@ public class MyRideActivity extends com.google.android.maps.MapActivity {
                 paint.setARGB(255, 255, 255, 255);
                 paint.setStyle(Paint.Style.STROKE);
 
-                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pointer);
+                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.arrow);
 
                 canvas.drawBitmap(bmp, myScreenCoords.x, myScreenCoords.y, paint);
                // canvas.drawText("I am here...", myScreenCoords.x, myScreenCoords.y, paint);
