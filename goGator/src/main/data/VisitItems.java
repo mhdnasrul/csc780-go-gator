@@ -19,7 +19,7 @@ public class VisitItems {
 	public VisitItems(){
 		visitItems = new ArrayList<MyOverlayItem>();
 		
-		for(int i=0;i<visitData[0].length;i++)
+		for(int i=0;i<visitData.length;i++)
 			visitItems.add(new MyOverlayItem(new GeoPoint
 								(Integer.parseInt(visitData[i][0]), Integer.parseInt(visitData[i][1])), 
 								visitData[i][2], visitData[i][3],i));
