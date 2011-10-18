@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -38,6 +39,7 @@ import main.data.BuildingItems;
 import main.data.CafeItems;
 import main.data.DeptItems;
 import main.data.VisitItems;
+import main.overlay.MyMappedPath;
 import main.overlay.MyOverlayItem;
 
 import org.w3c.dom.Document;
@@ -159,7 +161,10 @@ public class MapsActivity extends MapActivity {
         	
         	 Paint paint = new Paint();
              GeoPoint gp1=currLocation;
-             GeoPoint gp2=destLocation;
+             
+             MyMappedPath.getClosestGeoPoint(gp1);
+//             GeoPoint gp2=destLocation;
+             GeoPoint gp2 = MyMappedPath.locToGeo(MyMappedPath.getNextClosestGeoPoint(gp1));
              Point point1= new Point();
              Point point2= new Point();
              
@@ -275,16 +280,21 @@ public class MapsActivity extends MapActivity {
 		
 			if(doc.getElementsByTagName("GeometryCollection").getLength()>0) 
 			{ 
-				//String path = doc.getElementsByTagName("GeometryCollection").item(0).getFirstChild().getFirstChild().getNodeName(); 
+				ArrayList<Location> mappedpath = new ArrayList<Location>();
+				
 				String path = doc.getElementsByTagName("GeometryCollection").item(0).getFirstChild().getFirstChild().getFirstChild().getNodeValue() ; 
-				//	Log.d("xxx","path="+ path); 
+
 				String [] pairs = path.split(" "); 
 				String[] lngLat = pairs[0].split(","); // lngLat[0]=longitude lngLat[1]=latitude lngLat[2]=height 
 				// src 
 				GeoPoint startGP = new GeoPoint((int)(Double.parseDouble(lngLat[1])*1E6),(int)(Double.parseDouble(lngLat[0])*1E6)); 
-				mMapView01.getOverlays().add(new rideOverlay(startGP,startGP,1)); 
+				mMapView01.getOverlays().add(new rideOverlay(startGP,startGP,1));
+				//Adding startpoint to mappedPath
+				mappedpath.add(MyMappedPath.geoToLoc(startGP));
+				
 				GeoPoint gp1; 
 				GeoPoint gp2 = startGP; 
+				
 				for(int i=1;i<pairs.length;i++){ // the last one would be crash 
 					lngLat = pairs[i].split(","); 
 					gp1 = gp2; 
@@ -292,7 +302,11 @@ public class MapsActivity extends MapActivity {
 					gp2 = new GeoPoint((int)(Double.parseDouble(lngLat[1])*1E6),(int)(Double.parseDouble(lngLat[0])*1E6)); 
 					mMapView01.getOverlays().add(new rideOverlay(gp1,gp2,2,color)); 
 				//	Log.d("xxx","pair:" + pairs[i]); 
+					//Adding geopoints as location to mappedpath
+					mappedpath.add(MyMappedPath.geoToLoc(gp2));
 				} 
+				MyMappedPath.setMypath(mappedpath);
+				
 				mMapView01.getOverlays().add(new rideOverlay(dest,dest, 3)); // use the default color 
 			} 
 		} 
