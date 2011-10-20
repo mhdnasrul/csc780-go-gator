@@ -1,4 +1,59 @@
 #labels JournalEntry
+=*Week3 (10/13 - 10/20)*=
+
+==*Completed:*==
+
+ *  Instead of a dot showing current geolocation, the current location of the user is represented by an arrow now. The arrow has the capability of calculating the angle and pointing to any geolocation given as its input. The default geolocation is set to the center of the SFSU Campus. Also, upon rigorous testing we found minor degree of error in the directions for geolocations that are very far apart . The minor error is due to the planar projection of geopoints. Since our scope of App is within the campus it gives considerably well accuracy. There are formulas that exist to get the perfect accuracy but it compromises with performance and so I reduced it to simple formula and higher accuracy.
+
+ *  The user can choose the destination from the list view and Map it. When the !MapIt button is clicked, the path from the current location to the destination is highlighted. The pointer directs the user to the destination through the intermediate geopoints. We tested several cases and verified the obtained directions.
+ 
+ *  The datastructure to hold manually recorded 'path' & 'building' geopoints of the campus is ready. Also, Dijkstra's Algorithm is implemented to calculate the shortest distance between the geopoints using the newly implemented Data Structure. Overall plan is to shift from Google URI calling to manually calculate the path. Rough testing for this code is done to see it is compiled and working. Will develop unit test case to see the code is working perfectly with set of GeoPoints and then integrate it in place of google URI Call.
+
+ *  We are using Google code's Issues feature to maintain a log of issues and enhancements. It also lets us set milestones for each functionality. We regularly test each others implementations to maintain good code quality. 
+
+==*In progress:*==
+
+ *  Integration of Dijkstra's algorithm in place of Google's URI calls. 
+
+ *  Developing unit test cases for this functionality and adding more intermediate geopoints.
+
+ *  Rotate map with Magnetometer sensor. This makes it simpler for the user to judge left/right turns.
+
+ *  Initiate Building Navigation functionality. 
+
+ *  Showing popup on the markers which leads to !MapIt button. 
+
+
+
+
+------------------------------------------------------------------------
+
+=*Week2 (10/6 - 10/13)*=
+
+==*Completed:*==
+
+ *  Added markers to map for all the buildings on campus
+     Markers are added to the map according to the latitude and longitude points. 
+
+ *  Added View connectors between screen.level2 and screen.level3 
+     The item that was clicked on in the list view of screen.level2 is passed as an intent value to the view screen screen.level3. The clicked item is showed in the !MyCampusDetail screen.
+ 
+ *  Added GPS Current location for !MyRide
+     The current location can be obtained on the map by providing geo coordinates through DDMS or telnet using google API. 
+
+ *  Added walking distance between 2 geo locations, where first is Current geo location
+     The route between any two locations can be obtained by the !MapActivity by setting the destination location through DDMS or telnet.
+
+==*In progress:*==
+
+ *  GPS and Navigation for building coordinates
+     Improvement of the route calculation and geo coordinate specification. Creating our own routing table and direction specification instead of using google API.
+
+ *  Refining map overlay for displaying markers corresponding to the list view item. 
+
+
+------------------------------------------------------------------------
+
 =*Week1 (9/29 - 10/6)*=
 
 ==*Completed:*==
@@ -26,57 +81,5 @@
  *  developer.android.com
 
  *  stackoverflow.com
-
-------------------------------------------------------------------------
-
-=*Week2 (10/6 - 10/13)*=
-
-==*Completed:*==
-
- *  Added markers to map for all the buildings on campus
-     Markers are added to the map according to the latitude and longitude points. 
-
- *  Added View connectors between screen.level2 and screen.level3 
-     The item that was clicked on in the list view of screen.level2 is passed as an intent value to the view screen screen.level3. The clicked item is showed in the !MyCampusDetail screen.
- 
- *  Added GPS Current location for !MyRide
-     The current location can be obtained on the map by providing geo coordinates through DDMS or telnet using google API. 
-
- *  Added walking distance between 2 geo locations, where first is Current geo location
-     The route between any two locations can be obtained by the !MapActivity by setting the destination location through DDMS or telnet.
-
-==*In progress:*==
-
- *  GPS and Navigation for building coordinates
-     Improvement of the route calculation and geo coordinate specification. Creating our own routing table and direction specification instead of using google API.
-
- *  Refining map overlay for displaying markers corresponding to the list view item. 
-
-------------------------------------------------------------------------
-
-=*Week3 (10/13 - 10/20)*=
-
-==*Completed:*==
-
- *  The current location of the user is represented by an arrow. The arrow has the capability of calculating the angle and pointing to the geolocation given as its input. The default geolocation is set to the center of the SFSU Campus. Upon rigorous testing we found an error in the directions for geolocations that are very far apart. The error is due to the planar projection of geopoints. With a addition of a simple formula, accurate directions are obtained for the scope of SFSU campus.     
-
- *  The user can choose the destination from the list view and Map it. When the !MapIt button is clicked, the path from the current location to the destination is highlighted. The pointer directs the user to the destination through the intermediate geopoints. We tested several cases and verified the obtained directions.
- 
- *  The geopoints for all the buildings on campus are recorded in our datastucture instead of fetching it from Google through its URI. Dijkstra's Algorithm is implemented to calculate the shortest distance for the geopoints. 
-
- *  We are using Google code's Issues feature to maintain a log of issues and enhancements. It also lets us set milestones for each functionality. We regularly test each others implementations to maintain good code quality. 
-
-==*In progress:*==
-
- *  Integration of Dijkstra's algorithm in place of Google's URI calls. 
-
- *  Developing unit test cases for this functionality and adding more intermediate geopoints.
-
- *  Rotate map with Magnetometer sensor. This makes it simpler for the user to judge left/right turns.
-
- *  Initiate Building Navigation functionality. 
-
- *  Showing popup on the markers which leads to !MapIt button. 
-
 
  
