@@ -1,5 +1,5 @@
 #labels JournalEntry
-=*Week (9/29 - 10/6)*=
+=*Week1 (9/29 - 10/6)*=
 
 ==*Completed:*==
 
@@ -29,7 +29,7 @@
 
 ------------------------------------------------------------------------
 
-=*Week (10/6 - 10/13)*=
+=*Week2 (10/6 - 10/13)*=
 
 ==*Completed:*==
 
@@ -51,6 +51,32 @@
      Improvement of the route calculation and geo coordinate specification. Creating our own routing table and direction specification instead of using google API.
 
  *  Refining map overlay for displaying markers corresponding to the list view item. 
+
+------------------------------------------------------------------------
+
+=*Week3 (10/13 - 10/20)*=
+
+==*Completed:*==
+
+ *  The current location of the user is represented by an arrow. The arrow has the capability of calculating the angle and pointing to the geolocation given as its input. The default geolocation is set to the center of the SFSU Campus. Upon rigorous testing we found an error in the directions for geolocations that are very far apart. The error is due to the planar projection of geopoints. With a addition of a simple formula, accurate directions are obtained for the scope of SFSU campus.     
+
+ *  The user can choose the destination from the list view and Map it. When the MapIt button is clicked, the path from the current location to the destination is highlighted. The pointer directs the user to the destination through the intermediate geopoints. We tested several cases and verified the obtained directions.
+ 
+ *  The geopoints for all the buildings on campus are recorded in our datastucture instead of fetching it from Google through its URI. Dijkstra's Algorithm is implemented to calculate the shortest distance for the geopoints. 
+
+ *  We are using Google code's Issues feature to maintain a log of issues and enhancements. It also lets us set milestones for each functionality. We regularly test each others implementations to maintain good code quality. 
+
+==*In progress:*==
+
+ *  Integration of Dijkstra's algorithm in place of Google's URI calls. 
+
+ *  Developing unit test cases for this functionality and adding more intermediate geopoints.
+
+ *  Rotate map with Magnetometer sensor. This makes it simpler for the user to judge left/right turns.
+
+ *  Initiate Building Navigation functionality. 
+
+ *  Showing popup on the markers which leads to MapIt button. 
 
 
  
