@@ -7,7 +7,7 @@
 
  *  The user can choose the destination from the list view and Map it. When the !MapIt button is clicked, the path from the current location to the destination is highlighted. The pointer directs the user to the destination through the intermediate geopoints. We tested several cases and verified the obtained directions.
  
- *  The datastructure to hold manually recorded 'path' & 'building' geopoints of the campus is ready. Also, Dijkstra's Algorithm is implemented to calculate the shortest distance between the geopoints using the newly implemented Data Structure. Overall plan is to shift from Google URI calling to manually calculate the path. Rough testing for this code is done to see it is compiled and working. Will develop unit test case to see the code is working perfectly with set of GeoPoints and then integrate it in place of google URI Call.
+ *  The datastructure to hold manually recorded 'path' & 'building' geopoints of the campus is ready. Also, Dijkstra's Algorithm is implemented to calculate the shortest distance between the geopoints using the newly implemented Data Structure. Overall plan is to shift from Google URI calling to manually calculate the path. Rough testing for this code is done to see it is compiled and working. Will develop unit test case to see the code is working perfectly with set of geopoints and then integrate it in place of google URI Call.
 
  *  We are using Google code's Issues feature to maintain a log of issues and enhancements. It also lets us set milestones for each functionality. We regularly test each others implementations to maintain good code quality. 
 
