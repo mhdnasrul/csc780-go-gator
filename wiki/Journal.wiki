@@ -11,6 +11,10 @@
 
  *  We are using Google code's Issues feature to maintain a log of issues and enhancements. It also lets us set milestones for each functionality. We regularly test each others implementations to maintain good code quality. 
 
+Sample screen shot:
+
+http://csc780-go-gator.googlecode.com/svn/img/SampleSS.JPG
+
 ==*In progress:*==
 
  *  Integration of Dijkstra's algorithm in place of Google's URI calls. 
