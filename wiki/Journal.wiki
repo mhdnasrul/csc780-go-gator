@@ -5,8 +5,21 @@
 
  *  Instead of a dot showing current geolocation, the current location of the user is represented by an arrow now. The arrow has the capability of calculating the angle and pointing to any geolocation given as its input. The default geolocation is set to the center of the SFSU Campus. Also, upon rigorous testing we found minor degree of error in the directions for geolocations that are very far apart . The minor error is due to the planar projection of geopoints. Since our scope of App is within the campus it gives considerably well accuracy. There are formulas that exist to get the perfect accuracy but it compromises with performance and so I reduced it to simple formula and higher accuracy.
 
+Screen shots for the above functionality is shown below
+
+http://csc780-go-gator.googlecode.com/svn/img/MapTab.JPG
+
  *  The user can choose the destination from the list view and Map it. When the !MapIt button is clicked, the path from the current location to the destination is highlighted. The pointer directs the user to the destination through the intermediate geopoints. We tested several cases and verified the obtained directions.
  
+Screen shots for 3 use cases are shown below
+
+http://csc780-go-gator.googlecode.com/svn/img/MapIt%20-%201.JPG
+
+http://csc780-go-gator.googlecode.com/svn/img/MapIt%20-%202.JPG
+
+http://csc780-go-gator.googlecode.com/svn/img/MapIt%20-%203.JPG
+
+
  *  The datastructure to hold manually recorded 'path' & 'building' geopoints of the campus is ready. Also, Dijkstra's Algorithm is implemented to calculate the shortest distance between the geopoints using the newly implemented Data Structure. Overall plan is to shift from Google URI calling to manually calculate the path. Rough testing for this code is done to see it is compiled and working. Will develop unit test case to see the code is working perfectly with set of geopoints and then integrate it in place of google URI Call.
 
  *  We are using Google code's Issues feature to maintain a log of issues and enhancements. It also lets us set milestones for each functionality. We regularly test each others implementations to maintain good code quality. 
