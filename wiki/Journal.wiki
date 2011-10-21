@@ -11,7 +11,7 @@ http://csc780-go-gator.googlecode.com/svn/img/MapTab.JPG
 
  *  The user can choose the destination from the list view and Map it. When the !MapIt button is clicked, the path from the current location to the destination is highlighted. The pointer directs the user to the destination through the intermediate geopoints. We tested several cases and verified the obtained directions.
  
-Screen shots for 3 use cases are shown below
+Screen shots for directions to Administration Building are shown below
 
 http://csc780-go-gator.googlecode.com/svn/img/MapIt%20-%201.JPG
 
