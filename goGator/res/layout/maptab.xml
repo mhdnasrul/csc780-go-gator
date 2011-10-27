@@ -9,8 +9,10 @@
 	    android:layout_height="fill_parent"
 	    android:enabled="true"
 	    android:clickable="true"
-	    android:apiKey="0LXJb0xpTeLgt289uArlFgcH1xyUcGPNM4AgDcw"
-	/>
+	    android:apiKey="0PVBjW1QHkf4fAS17_vgtbnO4jsQnEsit244vMA"
+	/> 
 </LinearLayout>
- <!--android:apiKey="0PVBjW1QHkf4fAS17_vgtbnO4jsQnEsit244vMA"-->
-
+ <!--android:apiKey="0LXJb0xpTeLgt289uArlFgcH1xyUcGPNM4AgDcw" <-Nikitas's API Key
+	android:apiKey="0PVBjW1QHkf4fAS17_vgtbnO4jsQnEsit244vMA" <-Nilay's API Key
+	android:apiKey="0LXJb0xpTeLiz2u42XPOK_4g3I8a1ETkEGzR0bg" <-Application API Key
+	-->

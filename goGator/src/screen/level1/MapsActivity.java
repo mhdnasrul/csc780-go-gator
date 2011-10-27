@@ -41,6 +41,8 @@ import main.data.DeptItems;
 import main.data.VisitItems;
 import main.overlay.MyMappedPath;
 import main.overlay.MyOverlayItem;
+import main.routing.algo.CampusMap;
+import main.routing.algo.MyGeoPoint;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -65,6 +67,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
+import main.routing.algo.DijkstraEngine;
 
 public class MapsActivity extends MapActivity {
 	
@@ -114,6 +117,11 @@ public class MapsActivity extends MapActivity {
         	 //To add all building markers on Map
         	 mapOverlays.add(new markerOverlay(drawable,this,BuildingItems.getBuildingItems()).getItemizedoverlay());
         	 
+        	 //My Dijkstra Testing
+//        	 MyGeoPoint[] mygp = MyGeoPoint.getMygp();
+//             ArrayList<MyGeoPoint> gps = CampusMap.findShortestPath(mygp[0], mygp[24]);
+//             System.out.println(gps);
+             
         	 //For default Arrow Direction
         	 destLocation = new GeoPoint(37722734,-122478966);
          }
@@ -158,13 +166,19 @@ public class MapsActivity extends MapActivity {
         @Override
         public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
         	super.draw(canvas, mapView, shadow);
-        	
+//        	 CampusMap.generateCampusMap();
         	 Paint paint = new Paint();
              GeoPoint gp1=currLocation;
+             GeoPoint gp2;
              
-             MyMappedPath.getClosestGeoPoint(gp1);
-//             GeoPoint gp2=destLocation;
-             GeoPoint gp2 = MyMappedPath.locToGeo(MyMappedPath.getNextClosestGeoPoint(gp1));
+             
+             try{ //Exception handling if NextClosesGeoPoint is not set. Especially in the case of MapTab.
+            	 MyMappedPath.getClosestGeoPoint(gp1);
+            	 gp2 = MyMappedPath.locToGeo(MyMappedPath.getNextClosestGeoPoint(gp1));
+             }
+             catch(NullPointerException e){
+            	 gp2=destLocation;
+             }
              Point point1= new Point();
              Point point2= new Point();
              
@@ -250,40 +264,49 @@ public class MapsActivity extends MapActivity {
     
     private void DrawPath(GeoPoint src,GeoPoint dest, int color, MapView mMapView01){ 
 		// connect to map web service 
-		StringBuilder urlString = new StringBuilder(); 
-		urlString.append("http://maps.google.com/maps?f=d&hl=en"); 
-		urlString.append("&saddr=");//from 
-		urlString.append( Double.toString((double)src.getLatitudeE6()/1.0E6 )); 
-		urlString.append(","); 
-		urlString.append( Double.toString((double)src.getLongitudeE6()/1.0E6 )); 
-		urlString.append("&daddr=");//to 
-		urlString.append( Double.toString((double)dest.getLatitudeE6()/1.0E6 )); 
-		urlString.append(","); 
-		urlString.append( Double.toString((double)dest.getLongitudeE6()/1.0E6 )); 
-		urlString.append("&dirflg=w&ie=UTF8&0&om=0&output=kml"); 
+//		StringBuilder urlString = new StringBuilder(); 
+//		urlString.append("http://maps.google.com/maps?f=d&hl=en"); 
+//		urlString.append("&saddr=");//from 
+//		urlString.append( Double.toString((double)src.getLatitudeE6()/1.0E6 )); 
+//		urlString.append(","); 
+//		urlString.append( Double.toString((double)src.getLongitudeE6()/1.0E6 )); 
+//		urlString.append("&daddr=");//to 
+//		urlString.append( Double.toString((double)dest.getLatitudeE6()/1.0E6 )); 
+//		urlString.append(","); 
+//		urlString.append( Double.toString((double)dest.getLongitudeE6()/1.0E6 )); 
+//		urlString.append("&dirflg=w&ie=UTF8&0&om=0&output=kml"); 
 	//	Log.d("xxx","URL="+urlString.toString()); 
 		// get the kml (XML) doc. And parse it to get the coordinates(direction route). 
-		Document doc = null; 
-		HttpURLConnection urlConnection= null; 
-		URL url = null; 
-		try{ 
-			url = new URL(urlString.toString()); 
-			urlConnection=(HttpURLConnection)url.openConnection(); 
-			urlConnection.setRequestMethod("GET"); 
-			urlConnection.setDoOutput(true); 
-			urlConnection.setDoInput(true); 
-			urlConnection.connect(); 
-		
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
-			DocumentBuilder db = dbf.newDocumentBuilder(); 
-			doc = db.parse(urlConnection.getInputStream()); 
-		
-			if(doc.getElementsByTagName("GeometryCollection").getLength()>0) 
-			{ 
+//		Document doc = null; 
+//		HttpURLConnection urlConnection= null; 
+//		URL url = null; 
+//		try{ 
+//			url = new URL(urlString.toString()); 
+//			urlConnection=(HttpURLConnection)url.openConnection(); 
+//			urlConnection.setRequestMethod("GET"); 
+//			urlConnection.setDoOutput(true); 
+//			urlConnection.setDoInput(true); 
+//			urlConnection.connect(); 
+//		
+//			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
+//			DocumentBuilder db = dbf.newDocumentBuilder(); 
+//			doc = db.parse(urlConnection.getInputStream()); 
+			
+			//Dijkstra Part
+            //MyGeoPoint[] mygp = MyGeoPoint.getMygp();
+            ArrayList<MyGeoPoint> gps = CampusMap.findShortestPath(MyGeoPoint.getNearestMyGeoPoint(src), MyGeoPoint.getMyGeoPoint(dest));
+            System.out.println(gps);
+            
+            
 				ArrayList<Location> mappedpath = new ArrayList<Location>();
-				
-				String path = doc.getElementsByTagName("GeometryCollection").item(0).getFirstChild().getFirstChild().getFirstChild().getNodeValue() ; 
-
+				//To draw a direct path between current location and the geopoint in the Map we know.
+				String path=(src.getLongitudeE6()/1E6)+","+(src.getLatitudeE6()/1E6)+",0.000000 ";
+				for(MyGeoPoint gp:gps){
+					path += (gp.getGploc().getLongitude()/1E6)+","+(gp.getGploc().getLatitude()/1E6)+",0.000000 ";
+				}
+				System.out.println("Path:"+path);
+//				String path1 = doc.getElementsByTagName("GeometryCollection").item(0).getFirstChild().getFirstChild().getFirstChild().getNodeValue() ; 
+//				System.out.println("Path1:"+path1);
 				String [] pairs = path.split(" "); 
 				String[] lngLat = pairs[0].split(","); // lngLat[0]=longitude lngLat[1]=latitude lngLat[2]=height 
 				// src 
@@ -308,20 +331,64 @@ public class MapsActivity extends MapActivity {
 				MyMappedPath.setMypath(mappedpath);
 				
 				mMapView01.getOverlays().add(new rideOverlay(dest,dest, 3)); // use the default color 
-			} 
-		} 
-		catch (MalformedURLException e){ 
-			e.printStackTrace(); 
-		} 
-		catch (IOException e){ 
-			e.printStackTrace(); 
-		} 
-		catch (ParserConfigurationException e){ 
-			e.printStackTrace(); 
-		} 
-		catch (SAXException e){ 
-			e.printStackTrace(); 
-		} 
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+//			if(doc.getElementsByTagName("GeometryCollection").getLength()>0) 
+//			{ 
+//				ArrayList<Location> mappedpath = new ArrayList<Location>();
+//				
+//				String path = doc.getElementsByTagName("GeometryCollection").item(0).getFirstChild().getFirstChild().getFirstChild().getNodeValue() ; 
+//
+//				String [] pairs = path.split(" "); 
+//				String[] lngLat = pairs[0].split(","); // lngLat[0]=longitude lngLat[1]=latitude lngLat[2]=height 
+//				// src 
+//				GeoPoint startGP = new GeoPoint((int)(Double.parseDouble(lngLat[1])*1E6),(int)(Double.parseDouble(lngLat[0])*1E6)); 
+//				mMapView01.getOverlays().add(new rideOverlay(startGP,startGP,1));
+//				//Adding startpoint to mappedPath
+//				mappedpath.add(MyMappedPath.geoToLoc(startGP));
+//				
+//				GeoPoint gp1; 
+//				GeoPoint gp2 = startGP; 
+//				
+//				for(int i=1;i<pairs.length;i++){ // the last one would be crash 
+//					lngLat = pairs[i].split(","); 
+//					gp1 = gp2; 
+//					// watch out! For GeoPoint, first:latitude, second:longitude 
+//					gp2 = new GeoPoint((int)(Double.parseDouble(lngLat[1])*1E6),(int)(Double.parseDouble(lngLat[0])*1E6)); 
+//					mMapView01.getOverlays().add(new rideOverlay(gp1,gp2,2,color)); 
+//				//	Log.d("xxx","pair:" + pairs[i]); 
+//					//Adding geopoints as location to mappedpath
+//					mappedpath.add(MyMappedPath.geoToLoc(gp2));
+//				} 
+//				MyMappedPath.setMypath(mappedpath);
+//				
+//				mMapView01.getOverlays().add(new rideOverlay(dest,dest, 3)); // use the default color 
+//			} 
+//		} 
+//		catch (MalformedURLException e){ 
+//			e.printStackTrace(); 
+//		} 
+//		catch (IOException e){ 
+//			e.printStackTrace(); 
+//		} 
+//		catch (ParserConfigurationException e){ 
+//			e.printStackTrace(); 
+//		} 
+//		catch (SAXException e){ 
+//			e.printStackTrace(); 
+//		} 
 	}
 
 }
