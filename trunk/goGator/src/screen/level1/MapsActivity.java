@@ -56,6 +56,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -75,6 +76,7 @@ public class MapsActivity extends MapActivity {
     private LocationListener ll;
     private MapController mc;
     public GeoPoint currLocation,destLocation;
+    private String provider;
     
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,23 +93,29 @@ public class MapsActivity extends MapActivity {
 		 MyLocationOverlay myLocationOverlay = new MyLocationOverlay();
 		 mapOverlays.add(myLocationOverlay);
 		 
-         lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		 lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		 Criteria criteria = new Criteria();  
+        provider = lm.getBestProvider(criteria, false);  
+//        Location location = lm.getLastKnownLocation(provider); 
+         
          ll = new MyLocationListener();
          lm.requestLocationUpdates(
-                 LocationManager.GPS_PROVIDER,
+        		 provider,
                  0,
                  0,
                  ll);
 
          //Get the current location in start-up
+         try{
          currLocation = new GeoPoint(
-                (int)(lm.getLastKnownLocation(
-                 LocationManager.GPS_PROVIDER)
+                (int)(lm.getLastKnownLocation(provider)
                  .getLatitude()*1000000),
-                (int)(lm.getLastKnownLocation(
-                 LocationManager.GPS_PROVIDER)
+                (int)(lm.getLastKnownLocation(provider)
                  .getLongitude()*1000000));
-         
+         }catch(Exception e){
+        	 System.out.println("Current Location not set up yet.");
+        	 currLocation = new GeoPoint(37724007,-122476876);
+         }
          
          Bundle flowbundle = getIntent().getExtras();
          String from = flowbundle.getString("from");
