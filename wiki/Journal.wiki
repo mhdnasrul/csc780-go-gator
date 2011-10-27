@@ -6,7 +6,7 @@
  *   Instead of Google API call to find shortest path, Dijkstra is implemented to find shortest path in the campus.
 The path is drawn using Dijkstra's algorithm instead of Google kml. The screen shot is shown below.
 
-http://csc780-go-gator.googlecode.com/svn/img/Dijkstra's.JPG
+http://csc780-go-gator.googlecode.com/svn/img/dijkstras.JPG
 
  *  We can now fetch current Location from WiFi and 3G when GPS is not available. 
  
