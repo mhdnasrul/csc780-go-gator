@@ -1,4 +1,26 @@
 #labels JournalEntry
+=*Week4 (10/20 - 10/27)*=
+
+==*Completed:*==
+
+ *   Instead of Google API call to find shortest path, Dijkstra is implemented to find shortest path in the campus.
+The path is drawn using Dijkstra's algorithm instead of Google kml. The screen shot is shown below.
+http://csc780-go-gator.googlecode.com/svn/img/Dijkstra's.JPG
+
+ *  We can now fetch current Location from WiFi and 3G when GPS is not available. 
+ 
+ *  Fetched GeoPoints for the buildings and paths on the whole campus.
+
+ *  Installed goGator on a device (borrowed from Prof. Puder) and tested the working of navigation.
+
+==*In progress:*==
+
+ *  Rotate map with Magnetometer sensor. This makes it simpler for the user to judge left/right turns. 
+
+ *  Showing popup on the markers which leads to !MapIt button.
+
+
+------------------------------------------------------------------------
 =*Week3 (10/13 - 10/20)*=
 
 ==*Completed:*==
