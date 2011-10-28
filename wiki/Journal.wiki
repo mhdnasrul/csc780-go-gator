@@ -15,7 +15,7 @@ http://csc780-go-gator.googlecode.com/svn/img/dijkstras.JPG
  *  Installed goGator on a device (borrowed from Prof. Puder) and tested the working of navigation.
 The screen shot is attached below.
 
-http://csc780-go-gator.googlecode.com/svn/img/photo.JPG
+http://csc780-go-gator.googlecode.com/svn/img/photoDevice.JPG
 
 ==*In progress:*==
 
