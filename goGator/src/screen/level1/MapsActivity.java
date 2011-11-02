@@ -114,7 +114,9 @@ public class MapsActivity extends MapActivity {
                  .getLongitude()*1000000));
          }catch(Exception e){
         	 System.out.println("Current Location not set up yet.");
-        	 currLocation = new GeoPoint(37724007,-122476876);
+        	 //Default Location - Thorton Hall
+        	 currLocation = new GeoPoint(37723730,-122476890);
+        	 							 
          }
          
          Bundle flowbundle = getIntent().getExtras();
@@ -301,7 +303,11 @@ public class MapsActivity extends MapActivity {
 //			doc = db.parse(urlConnection.getInputStream()); 
 			
 			//Dijkstra Part
-            //MyGeoPoint[] mygp = MyGeoPoint.getMygp();
+    		new MyGeoPoint();
+    		System.out.println("Max Number");
+    		
+            MyGeoPoint[] mygp = MyGeoPoint.getMygp();
+    	
             ArrayList<MyGeoPoint> gps = CampusMap.findShortestPath(MyGeoPoint.getNearestMyGeoPoint(src), MyGeoPoint.getMyGeoPoint(dest));
             System.out.println(gps);
             
