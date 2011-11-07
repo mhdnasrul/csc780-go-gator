@@ -4,6 +4,8 @@ import main.data.BuildingItems;
 import main.data.CafeItems;
 import main.data.DeptItems;
 import main.data.VisitItems;
+import main.routing.algo.CampusMap;
+import main.routing.algo.RoutesMap;
 import screen.level1.CameraActivity;
 import screen.level1.HomeActivity;
 import screen.level1.MapsActivity;
@@ -16,6 +18,8 @@ import android.widget.TabHost;
 
 public class GoGatorActivity extends TabActivity {
     /** Called when the activity is first created. */
+	private static RoutesMap campusmap;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,5 +65,18 @@ public class GoGatorActivity extends TabActivity {
         new DeptItems();
         new CafeItems();
         new VisitItems();
+        
+        new Thread(new Runnable() {
+            public void run() {
+              campusmap = CampusMap.generateCampusMap();
+            }
+          }).start();
     }
+
+	/**
+	 * @return the campusmap
+	 */
+	public static RoutesMap getCampusmap() {
+		return campusmap;
+	}
 }
