@@ -10,6 +10,7 @@ import screen.level1.CameraActivity;
 import screen.level1.HomeActivity;
 import screen.level1.MapsActivity;
 import screen.level1.MoreActivity;
+import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -45,8 +46,17 @@ public class GoGatorActivity extends TabActivity {
                           res.getDrawable(R.drawable.ic_map))
                       .setContent(intent);
         tabHost.addTab(spec);
+        
+        intent = new Intent("com.google.zxing.client.android.SCAN");
+        intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+        if (getParent() == null) {
+            setResult(Activity.RESULT_OK, intent);
+        } else {
+            getParent().setResult(Activity.RESULT_OK, intent);
+        }
+//        startActivityForResult(intent, 0);
 
-        intent = new Intent().setClass(this, CameraActivity.class);
+//        intent = new Intent().setClass(this, CameraActivity.class);
         spec = tabHost.newTabSpec("camera").setIndicator("Point It!",
                           res.getDrawable(R.drawable.ic_camera))
                       .setContent(intent);
@@ -79,4 +89,17 @@ public class GoGatorActivity extends TabActivity {
 	public static RoutesMap getCampusmap() {
 		return campusmap;
 	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		   if (requestCode == 0) {
+		      if (resultCode == RESULT_OK) {
+		         String contents = intent.getStringExtra("SCAN_RESULT");
+		         String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+		         // Handle successful scan
+		      } else if (resultCode == RESULT_CANCELED) {
+		         // Handle cancel
+		      }
+		   }
+		}
+
 }

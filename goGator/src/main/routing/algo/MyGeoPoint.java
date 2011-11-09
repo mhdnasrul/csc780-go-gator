@@ -3,6 +3,8 @@ package main.routing.algo;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.common.Utils;
+
 import com.google.android.maps.GeoPoint;
 
 import android.location.Location;
@@ -174,7 +176,7 @@ public final class MyGeoPoint implements Comparable<MyGeoPoint>
 			dist[i]=(float) (loc.distanceTo(MyGeoPoint.mygp[i].getGploc())/1E6);
 		}
 //		System.out.println(main.overlay.MyMappedPath.smallestIndex(dist));
-		return mygp[main.overlay.MyMappedPath.smallestIndex(dist)];
+		return mygp[Utils.smallestIndex(dist)];
 	}
 
 	/*

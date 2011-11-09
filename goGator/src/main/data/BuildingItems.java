@@ -2,7 +2,10 @@ package main.data;
 
 import java.util.ArrayList;
 
+import main.common.Utils;
 import main.overlay.MyOverlayItem;
+
+import android.location.Location;
 
 import com.google.android.maps.GeoPoint;
 
@@ -34,7 +37,7 @@ public class BuildingItems {
 //										{"37726548", "-122483692", "Tennis Courts", "Tennis Courts Desc" },
 //										{"37723765","-122484051","The Towers", "The Towers Desc" },
 //										{"37722991", "-122480561", "The Village", "The Village Desc" },
-//										{"37724007", "-122476876", "Thornton Hall", "Thornton Hall Desc" },
+										{"37723482", "-122476820", "Thornton Hall", "Thornton Hall Desc" },
 //										{"37723992", "-122476383", "Trailers", "Trailers Desc" }
 										};
 	
@@ -63,5 +66,23 @@ public class BuildingItems {
 	
 	public static MyOverlayItem getBuildingItem(int index) {
 		return buildingItems.get(index);
+	}
+	
+	public static MyOverlayItem getNearestBuildingItem(Location loc) {
+		
+		double[] dist = new double[buildingItems.size()];
+		int i=0;
+		
+		for(MyOverlayItem item: buildingItems){
+			dist[i] = loc.distanceTo(Utils.geoToLoc(item.getPoint()));
+//			dist[i] /= 10000;
+//			Location loc2 = Utils.geoToLoc(item.getPoint());
+//			dist[i] = Utils.distVincenty(loc.getLatitude(), loc.getLongitude(), loc2.getLatitude(), loc2.getLongitude());
+			dist[i] /= 1E6;
+//			System.out.println(loc.getLatitude()+" "+ loc.getLongitude()+" "+ loc2.getLatitude()+" "+loc2.getLongitude()+" "+dist[i]+" "+item.getTitle());
+			i++;
+		}
+		
+		return buildingItems.get(Utils.smallestIndex(dist));
 	}
 }

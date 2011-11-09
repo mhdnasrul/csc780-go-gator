@@ -11,28 +11,29 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int building_list=0x7f020000;
+        public static final int arrow=0x7f020000;
         public static final int flag=0x7f020001;
-        public static final int ic_camera=0x7f020002;
-        public static final int ic_dialog_dialer=0x7f020003;
-        public static final int ic_dialog_email=0x7f020004;
-        public static final int ic_dialog_info=0x7f020005;
-        public static final int ic_dialog_map=0x7f020006;
-        public static final int ic_home=0x7f020007;
-        public static final int ic_info=0x7f020008;
-        public static final int ic_map=0x7f020009;
-        public static final int icon=0x7f02000a;
-        public static final int icon_default=0x7f02000b;
+        public static final int ic_building=0x7f020002;
+        public static final int ic_camera=0x7f020003;
+        public static final int ic_department=0x7f020004;
+        public static final int ic_home=0x7f020005;
+        public static final int ic_info=0x7f020006;
+        public static final int ic_map=0x7f020007;
+        public static final int icon=0x7f020008;
+        public static final int icon_default=0x7f020009;
+        public static final int pointer=0x7f02000a;
     }
     public static final class id {
         public static final int buildinglist=0x7f050000;
-        public static final int button=0x7f050001;
-        public static final int first_tab=0x7f050002;
-        public static final int mapview=0x7f050007;
-        public static final int mycafe=0x7f050004;
-        public static final int mycampus=0x7f050003;
-        public static final int myride=0x7f050006;
-        public static final int myvisit=0x7f050005;
+        public static final int button=0x7f050003;
+        public static final int descLinearLayout=0x7f050001;
+        public static final int descTextView=0x7f050002;
+        public static final int first_tab=0x7f050004;
+        public static final int mapview=0x7f050009;
+        public static final int mycafe=0x7f050006;
+        public static final int mycampus=0x7f050005;
+        public static final int myride=0x7f050008;
+        public static final int myvisit=0x7f050007;
     }
     public static final class layout {
         public static final int building_list=0x7f030000;
