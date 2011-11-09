@@ -2,6 +2,7 @@ package screen.level1;
 
 import screen.level1.overlay.markerOverlay;
 import screen.level2.overlay.rideOverlay;
+import screen.main.GoGatorActivity;
 import screen.main.R;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import main.common.Utils;
 import main.data.BuildingItems;
 import main.data.CafeItems;
 import main.data.DeptItems;
@@ -23,11 +25,14 @@ import main.overlay.MyMappedPath;
 import main.overlay.MyOverlayItem;
 import main.routing.algo.CampusMap;
 import main.routing.algo.MyGeoPoint;
+import main.routing.algo.RouteDictionary;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -45,6 +50,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -59,13 +65,15 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 	private LocationManager lm;
 	private LocationListener ll;
 	private MapController mc;
-	public GeoPoint currLocation, destLocation;
+	public GeoPoint currLocation, destLocation, prevRecLocation;
 	private String provider;
 	float azimut;
 	private SensorManager mSensorManager;
 	Sensor accelerometer;
 	Sensor magnetometer;
-
+	private static Context context;
+	private boolean inBuilding;
+	private int step;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,7 +82,8 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		MapView mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(true);
-
+		setContext(this);
+		
 		// Register the sensor listeners
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		accelerometer = mSensorManager
@@ -92,6 +101,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Criteria criteria = new Criteria();
 		provider = lm.getBestProvider(criteria, true);
+		provider = LocationManager.GPS_PROVIDER; //Uncomment this for emulator SSH
 		// Location location = lm.getLastKnownLocation(provider);
 		System.out.println("Provider:" + provider);
 		
@@ -109,7 +119,8 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			currLocation = new GeoPoint(37723730, -122476890);
 
 		}
-
+		prevRecLocation = currLocation;
+		
 		Bundle flowbundle = getIntent().getExtras();
 		String from = flowbundle.getString("from");
 
@@ -157,6 +168,9 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			DrawPath(currLocation, destLocation, Color.GREEN, mapView);
 		}
 
+		inBuilding = false;
+		step = 0;
+		
 		mc = mapView.getController();
 		mc.animateTo(currLocation);
 		mc.setZoom(17);
@@ -221,7 +235,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			try { // Exception handling if NextClosestGeoPoint is not set.
 					// Especially in the case of MapTab.
 				MyMappedPath.getClosestGeoPoint(gp1);
-				gp2 = MyMappedPath.locToGeo(MyMappedPath
+				gp2 = Utils.locToGeo(MyMappedPath
 						.getNextClosestGeoPoint(gp1));
 			} catch (NullPointerException e) {
 				gp2 = destLocation;
@@ -285,19 +299,84 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 	}
 
 	private class MyLocationListener implements LocationListener {
-
+		
+		
+		
 		public void onLocationChanged(Location argLocation) {
 			// TODO Auto-generated method stub
 			currLocation = new GeoPoint(
 					(int) (argLocation.getLatitude() * 1000000),
 					(int) (argLocation.getLongitude() * 1000000));
-			/*
-			 * it will show a message on location change
-			 * Toast.makeText(getBaseContext(), "New location latitude ["
-			 * +argLocation.getLatitude() + "] longitude [" +
-			 * argLocation.getLongitude()+"]", Toast.LENGTH_SHORT).show();
-			 */
-
+			
+			Location currloc = Utils.geoToLoc(currLocation);
+			MyOverlayItem nearestBuilding;
+			float distance = 0;
+			
+			if(!inBuilding){
+				step = 0;
+				distance = currloc.distanceTo(Utils.geoToLoc(prevRecLocation));
+				distance /= 1E6;
+				System.out.println(distance);
+			}
+			
+			if(distance > 10 && !inBuilding)
+			{
+				nearestBuilding = BuildingItems.getNearestBuildingItem(currloc);
+				distance = currloc.distanceTo(Utils.geoToLoc(nearestBuilding.getPoint()));
+	//			  it will show a message on location change
+	//			  Utils.alert(MapsActivity.getContext(), "New location latitude ["
+	//			  +argLocation.getLatitude() + "] longitude [" +
+	//			  argLocation.getLongitude()+"]");
+				distance /= 1E6;
+				System.out.println("I am in if loop");
+				prevRecLocation = currLocation;
+				
+				if(distance < 1){
+					inBuilding = true;
+//					Utils.alert(MapsActivity.getContext(), "You have reached "+nearestBuilding.getTitle()
+//							+ "Do you want to Navigate within the building?");
+					Context context = MapsActivity.getContext();
+					String message = "You have reached "+nearestBuilding.getTitle()
+					+ "Do you want to Navigate within the building?";
+					AlertDialog.Builder builder = new AlertDialog.Builder(context);
+					builder.setMessage(message).setCancelable(false)
+							.setPositiveButton("Navigate", new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int id) {
+									Utils.navalert(MapsActivity.getContext(),"Walk further to reach point "+RouteDictionary.getTHDictionary()[step++][0]);
+								}
+							});
+					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int id) {
+									inBuilding = false;
+									step = 0;
+									dialog.cancel();
+								}
+							});
+					AlertDialog alert = builder.create();
+					alert.show();
+				}
+//				Utils.toast(MapsActivity.getContext(), distance+" New location latitude ["
+//						  +argLocation.getLatitude() + "] longitude [" +
+//						  argLocation.getLongitude()+"]");
+			} 
+			else if(inBuilding){
+				Location nextPoint = Utils.geoToLoc(
+						new GeoPoint((int)(Double.parseDouble(RouteDictionary.getTHDictionary()[step][1])*1E6),
+								(int)(Double.parseDouble(RouteDictionary.getTHDictionary()[step][2])*1E6)));
+				distance = currloc.distanceTo(nextPoint);
+				distance /= 1E6;
+				System.out.println("In building:"+distance);
+				if(distance < 0.5){
+					Utils.navalert(MapsActivity.getContext(),"Walk further to reach point "+RouteDictionary.getTHDictionary()[step++][0]);
+				}
+				
+				Utils.toast(MapsActivity.getContext(), "If you feel lost in the building, use Point It! " +
+						"Tab button below to scan QR Code.");
+			}
+			
+			
+			System.out.println("Location is changed!!!");
+			
 			mc.animateTo(currLocation);
 			mc.setZoom(17);
 
@@ -354,7 +433,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 				(int) (Double.parseDouble(lngLat[0]) * 1E6));
 		mMapView01.getOverlays().add(new rideOverlay(startGP, startGP, 1));
 		// Adding startpoint to mappedPath
-		mappedpath.add(MyMappedPath.geoToLoc(startGP));
+		mappedpath.add(Utils.geoToLoc(startGP));
 
 		GeoPoint gp1;
 		GeoPoint gp2 = startGP;
@@ -368,13 +447,27 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			mMapView01.getOverlays().add(new rideOverlay(gp1, gp2, 2, color));
 			// Log.d("xxx","pair:" + pairs[i]);
 			// Adding geopoints as location to mappedpath
-			mappedpath.add(MyMappedPath.geoToLoc(gp2));
+			mappedpath.add(Utils.geoToLoc(gp2));
 		}
 		MyMappedPath.setMypath(mappedpath);
 
 		mMapView01.getOverlays().add(new rideOverlay(dest, dest, 3)); // use the
 																		// default
 																		// color
+	}
+
+	/**
+	 * @param context the context to set
+	 */
+	public void setContext(Context context) {
+		this.context = context;
+	}
+
+	/**
+	 * @return the context
+	 */
+	public static Context getContext() {
+		return context;
 	}
 
 }

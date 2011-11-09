@@ -2,6 +2,8 @@ package main.overlay;
 
 import java.util.ArrayList;
 
+import main.common.Utils;
+
 import com.google.android.maps.GeoPoint;
 
 import android.location.Location;
@@ -41,7 +43,7 @@ public class MyMappedPath {
 	}
 	
 	public static Location getClosestGeoPoint(GeoPoint currgp){
-		Location currloc = geoToLoc(currgp);
+		Location currloc = Utils.geoToLoc(currgp);
 		
 		float[] dist = new float[mypath.size()];
 		int i=0;
@@ -49,7 +51,7 @@ public class MyMappedPath {
 			dist[i++] = currloc.distanceTo(mypathloc);
 		}
 		
-		return mypath.get(smallestIndex(dist));
+		return mypath.get(Utils.smallestIndex(dist));
 	}
 	
 	//This function is required to make sure, that arrow do not point to last traversed geolocation
@@ -58,29 +60,29 @@ public class MyMappedPath {
 		return getNextGeoPoint(getNextGeoPoint(closestLoc));
 	}
 	
-	//GeoPoint to Location
-	public static Location geoToLoc(GeoPoint gp){
-		Location loc = new Location("");
-		loc.setLatitude(gp.getLatitudeE6());
-		loc.setLongitude(gp.getLongitudeE6());
-		return loc;
-	}
-	
-	public static GeoPoint locToGeo(Location loc) {
-		return (new GeoPoint((int)loc.getLatitude(),(int)loc.getLongitude()));
-	}
-	
-	public static int smallestIndex (float[] array) {
-		float currentValue = array[0]; 
-		int smallestIndex = 0;
-		for (int j=1; j < array.length; j++) {
-			if (array[j] < currentValue) {
-				currentValue = array[j];
-				smallestIndex = j;
-			}
-		}
-		return smallestIndex;
-	}
+//	//GeoPoint to Location
+//	public static Location geoToLoc(GeoPoint gp){
+//		Location loc = new Location("");
+//		loc.setLatitude(gp.getLatitudeE6());
+//		loc.setLongitude(gp.getLongitudeE6());
+//		return loc;
+//	}
+//	
+//	public static GeoPoint locToGeo(Location loc) {
+//		return (new GeoPoint((int)loc.getLatitude(),(int)loc.getLongitude()));
+//	}
+//	
+//	public static int smallestIndex (float[] array) {
+//		float currentValue = array[0]; 
+//		int smallestIndex = 0;
+//		for (int j=1; j < array.length; j++) {
+//			if (array[j] < currentValue) {
+//				currentValue = array[j];
+//				smallestIndex = j;
+//			}
+//		}
+//		return smallestIndex;
+//	}
 	
 	
 }
