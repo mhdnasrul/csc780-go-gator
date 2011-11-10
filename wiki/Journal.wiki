@@ -1,4 +1,29 @@
 #labels JournalEntry
+=*Week5&6 (10/27 - 11/10)*=
+
+==*Completed:*==
+
+ *  Added Map data for the whole campus in the routedictionary for Dijkstra's algorithm    
+
+ *  The current location arrow rotates with the magnetometer sensor. Testing was done on the device.
+ 
+ *  Building Navigation and QRScan are working. Needs performance improvements.
+The screenshot for building navigation is below. 
+
+http://csc780-go-gator.googlecode.com/svn/img/BuildingNavigation.png
+
+ *  Changed buttons to image buttons with appropriate images.
+
+ *  Prepared slides for class presentation. 
+
+==*In progress:*==
+
+ *  Performance improvement for QRScan 
+
+ *  Showing popup on the markers which leads to !MapIt button.
+
+
+------------------------------------------------------------------------
 =*Week4 (10/20 - 10/27)*=
 
 ==*Completed:*==
