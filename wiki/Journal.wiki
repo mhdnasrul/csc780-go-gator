@@ -7,7 +7,7 @@
 
  *  The current location arrow rotates with the magnetometer sensor. Testing was done on the device.
  
- *  Building Navigation and QRScan are working. Needs performance improvements.
+ *  Building Navigation and QRScan are working. Needs performance improvements. The QR codes contain the steps of navigating inside building.
 The screenshot for building navigation is below. 
 
 http://csc780-go-gator.googlecode.com/svn/img/BuildingNavigation.png
@@ -18,7 +18,11 @@ http://csc780-go-gator.googlecode.com/svn/img/BuildingNavigation.png
 
 ==*In progress:*==
 
- *  Performance improvement for QRScan 
+ *  Performance improvement for QRScan
+
+ *  Rotate map along with the arrow.
+ 
+ *  Create a database for geopoints and description 
 
  *  Showing popup on the markers which leads to !MapIt button.
 
