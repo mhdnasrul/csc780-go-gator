@@ -36,11 +36,10 @@ public class CampusMap {
 	
 	public static ArrayList<MyGeoPoint> findShortestPath(MyGeoPoint source, MyGeoPoint destination){
 		
-		//Generate Campus Map and feed it to Dijkstra Engine
-		DijkstraEngine engine = new DijkstraEngine(GoGatorActivity.getCampusmap());
+		
         //Find distance between all points.
-		engine.execute(source, null);
-		System.out.println("Path calc over");
+//		engine.execute(source, null);
+//		System.out.println("Path calc over");
 		
 //		new Thread(new Runnable() {
 //            public void run() {
@@ -51,6 +50,8 @@ public class CampusMap {
 //	
 		
 		//Now find path to with the destination
+		DijkstraEngine engine = GoGatorActivity.getEngine();
+		engine.execute(source, destination);
         ArrayList<MyGeoPoint> mygps = new ArrayList<MyGeoPoint>();
 		 
 		  for (MyGeoPoint mygp = destination; mygp != null; mygp = engine.getPredecessor(mygp))

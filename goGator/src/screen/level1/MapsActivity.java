@@ -31,8 +31,10 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -49,7 +51,12 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -74,14 +81,26 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 	private static Context context;
 	private boolean inBuilding;
 	private int step;
+	private List<Overlay> mapOverlays;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maptab);
-
+		
+		
 		MapView mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
+//		 LinearLayout zoomLayout = (LinearLayout)findViewById(R.id.zoom);  
+//		 Button b = (Button) findViewById(R.id.mycampus);
+//	 
+//	        zoomLayout.addView(b, 
+//	            new LinearLayout.LayoutParams(
+//	                LayoutParams.WRAP_CONTENT, 
+//	                LayoutParams.WRAP_CONTENT)); 
+//	        mapView.displayZoomControls(true);
 		mapView.setSatellite(true);
+		
 		setContext(this);
 		
 		// Register the sensor listeners
@@ -91,18 +110,20 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		magnetometer = mSensorManager
 				.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-		List<Overlay> mapOverlays = mapView.getOverlays();
+		mapOverlays = mapView.getOverlays();
 		Drawable drawable = this.getResources().getDrawable(R.drawable.flag);
 
 		// To place current Location marker on Map
 		MyLocationOverlay myLocationOverlay = new MyLocationOverlay();
 		mapOverlays.add(myLocationOverlay);
-
+//		mapOverlays.add(new markerOverlay(drawable, this, BuildingItems
+//				.getBuildingItem(0)).getItemizedoverlay());
+		
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Criteria criteria = new Criteria();
 		provider = lm.getBestProvider(criteria, true);
-		provider = LocationManager.GPS_PROVIDER; //Uncomment this for emulator SSH
-		// Location location = lm.getLastKnownLocation(provider);
+//		provider = LocationManager.GPS_PROVIDER; //Uncomment this for emulator SSH
+//		 Location location = lm.getLastKnownLocation(provider);
 		System.out.println("Provider:" + provider);
 		
 		ll = new MyLocationListener();
@@ -115,7 +136,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 					(int) (lm.getLastKnownLocation(provider).getLongitude() * 1000000));
 		} catch (Exception e) {
 			System.out.println("Current Location not set up yet.");
-			// Default Location - Thorton Hall
+			// Default Location - Thornton Hall
 			currLocation = new GeoPoint(37723730, -122476890);
 
 		}
@@ -130,14 +151,13 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			// To add all building markers on Map
 			mapOverlays.add(new markerOverlay(drawable, this, BuildingItems
 					.getBuildingItems()).getItemizedoverlay());
-
 			// My Dijkstra Testing
 			// MyGeoPoint[] mygp = MyGeoPoint.getMygp();
 			// ArrayList<MyGeoPoint> gps = CampusMap.findShortestPath(mygp[0],
 			// mygp[24]);
 			// System.out.println(gps);
 
-			// For default Arrow Direction 
+			// For default Arrow Direction TODO: Might want to comment this line after testing
 			destLocation = new GeoPoint(37722734, -122478966);
 		} else if (from.equalsIgnoreCase("mapitbutton")) {
 			// Place Destination Marker
@@ -153,19 +173,34 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 				myItem = CafeItems.getCafeItem(index);
 			else if (flowbundle.getString("type").equalsIgnoreCase("visit"))
 				myItem = VisitItems.getVisitItem(index);
+			
 			// Add Destination Marker
 			mapOverlays.add(new markerOverlay(drawable, this, myItem)
 					.getItemizedoverlay());
 
-			// Get GeoLocation
+			// Get Destination GeoLocation
 			double dest_lat = Double
 					.parseDouble(flowbundle.getString("geolat"));
 			double dest_long = Double.parseDouble(flowbundle
 					.getString("geolong"));
 			destLocation = new GeoPoint((int) (dest_lat), (int) (dest_long));
-
-			// Draw Path from source to Destination
-			DrawPath(currLocation, destLocation, Color.GREEN, mapView);
+			
+//			ProgressDialog dialog = ProgressDialog.show(MapsActivity.this, "", 
+//                    "Loading. Please wait...", true);
+//			new DrawPathTask().execute(dialog);
+			
+//			 new Thread(new Runnable() {
+//		            public void run() {
+		            	ProgressDialog dialog = ProgressDialog.show(MapsActivity.this, "", 
+		                        "Loading. Please wait...", true);
+		            	// Draw Path from source to Destination
+		    			DrawPath(currLocation, destLocation, Color.GREEN);
+		    			dialog.cancel();
+//		            }
+//		          }).start();
+			 
+//			// Draw Path from source to Destination
+//			DrawPath(currLocation, destLocation, Color.GREEN, mapView);
 		}
 
 		inBuilding = false;
@@ -175,7 +210,42 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		mc.animateTo(currLocation);
 		mc.setZoom(17);
 	}
+	 private class DrawPathTask extends AsyncTask<ProgressDialog, String, String> {
+	     protected String doInBackground(ProgressDialog... dialog) {
+	    	 DrawPath(currLocation, destLocation, Color.GREEN);
+	    	 dialog[0].cancel();
+	         return "Its Done!!1";
+	     }
 
+	     protected void onProgressUpdate(String... progress) {
+	     }
+
+	     protected void onPostExecute(String result) {
+	         System.out.println(result);
+	     }
+	 }
+//	public void QRScan(){
+//    	Intent  intent = new Intent("com.google.zxing.client.android.SCAN");
+//        intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+//        startActivityForResult(intent, 0);
+//    }
+//    
+//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+//		System.out.println("Here");   
+//		if (requestCode == 0) {
+//		      if (resultCode == RESULT_OK) {
+//		         String contents = intent.getStringExtra("SCAN_RESULT");
+//		         String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+//		     	System.out.println(contents); 
+////		         System.out.println(contents);
+////		         Utils.toast(this, contents);
+//		         // Handle successful scan
+//		      } else if (resultCode == RESULT_CANCELED) {
+//		    		System.out.println("Else"); 
+//		         // Handle cancel
+//		      }
+//		   }
+//		}
 	protected void onResume() {
 		super.onResume();
 		mSensorManager.registerListener(this, accelerometer,
@@ -336,8 +406,8 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 //					Utils.alert(MapsActivity.getContext(), "You have reached "+nearestBuilding.getTitle()
 //							+ "Do you want to Navigate within the building?");
 					Context context = MapsActivity.getContext();
-					String message = "You have reached "+nearestBuilding.getTitle()
-					+ "Do you want to Navigate within the building?";
+					String message = "You have reached \""+nearestBuilding.getTitle()
+					+ "\". Do you want to Navigate within the building?";
 					AlertDialog.Builder builder = new AlertDialog.Builder(context);
 					builder.setMessage(message).setCancelable(false)
 							.setPositiveButton("Navigate", new DialogInterface.OnClickListener() {
@@ -395,9 +465,8 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		}
 	}
 
-	private void DrawPath(GeoPoint src, GeoPoint dest, int color,
-			MapView mMapView01) {
-
+	private void DrawPath(GeoPoint src, GeoPoint dest, int color) {
+		
 		// Dijkstra Part
 		new MyGeoPoint();
 		System.out.println("Max Number");
@@ -431,7 +500,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		GeoPoint startGP = new GeoPoint(
 				(int) (Double.parseDouble(lngLat[1]) * 1E6),
 				(int) (Double.parseDouble(lngLat[0]) * 1E6));
-		mMapView01.getOverlays().add(new rideOverlay(startGP, startGP, 1));
+		mapOverlays.add(new rideOverlay(startGP, startGP, 1));
 		// Adding startpoint to mappedPath
 		mappedpath.add(Utils.geoToLoc(startGP));
 
@@ -444,16 +513,16 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			// watch out! For GeoPoint, first:latitude, second:longitude
 			gp2 = new GeoPoint((int) (Double.parseDouble(lngLat[1]) * 1E6),
 					(int) (Double.parseDouble(lngLat[0]) * 1E6));
-			mMapView01.getOverlays().add(new rideOverlay(gp1, gp2, 2, color));
+			mapOverlays.add(new rideOverlay(gp1, gp2, 2, color));
+//			new rideOverlay(gp1, gp2, 2, color);
 			// Log.d("xxx","pair:" + pairs[i]);
 			// Adding geopoints as location to mappedpath
 			mappedpath.add(Utils.geoToLoc(gp2));
 		}
 		MyMappedPath.setMypath(mappedpath);
 
-		mMapView01.getOverlays().add(new rideOverlay(dest, dest, 3)); // use the
+		mapOverlays.add(new rideOverlay(dest, dest, 3)); // use the
 																		// default
-																		// color
 	}
 
 	/**
