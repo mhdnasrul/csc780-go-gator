@@ -1,10 +1,12 @@
 package screen.main;
 
+import main.common.Utils;
 import main.data.BuildingItems;
 import main.data.CafeItems;
 import main.data.DeptItems;
 import main.data.VisitItems;
 import main.routing.algo.CampusMap;
+import main.routing.algo.DijkstraEngine;
 import main.routing.algo.RoutesMap;
 import screen.level1.CameraActivity;
 import screen.level1.HomeActivity;
@@ -20,6 +22,7 @@ import android.widget.TabHost;
 public class GoGatorActivity extends TabActivity {
     /** Called when the activity is first created. */
 	private static RoutesMap campusmap;
+	private static DijkstraEngine engine;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,16 +50,11 @@ public class GoGatorActivity extends TabActivity {
                       .setContent(intent);
         tabHost.addTab(spec);
         
-        intent = new Intent("com.google.zxing.client.android.SCAN");
-        intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-        if (getParent() == null) {
-            setResult(Activity.RESULT_OK, intent);
-        } else {
-            getParent().setResult(Activity.RESULT_OK, intent);
-        }
+//        intent = new Intent("com.google.zxing.client.android.SCAN");
+//        intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
 //        startActivityForResult(intent, 0);
 
-//        intent = new Intent().setClass(this, CameraActivity.class);
+        intent = new Intent().setClass(this, CameraActivity.class);
         spec = tabHost.newTabSpec("camera").setIndicator("Point It!",
                           res.getDrawable(R.drawable.ic_camera))
                       .setContent(intent);
@@ -79,6 +77,8 @@ public class GoGatorActivity extends TabActivity {
         new Thread(new Runnable() {
             public void run() {
               campusmap = CampusMap.generateCampusMap();
+            //Generate Campus Map and feed it to Dijkstra Engine
+      			engine = new DijkstraEngine(campusmap);
             }
           }).start();
     }
@@ -89,17 +89,36 @@ public class GoGatorActivity extends TabActivity {
 	public static RoutesMap getCampusmap() {
 		return campusmap;
 	}
+
+	/**
+	 * @param engine the engine to set
+	 */
+	public static void setEngine(DijkstraEngine engine) {
+		GoGatorActivity.engine = engine;
+	}
+
+	/**
+	 * @return the engine
+	 */
+	public static DijkstraEngine getEngine() {
+		return engine;
+	}
 	
-	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		   if (requestCode == 0) {
-		      if (resultCode == RESULT_OK) {
-		         String contents = intent.getStringExtra("SCAN_RESULT");
-		         String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-		         // Handle successful scan
-		      } else if (resultCode == RESULT_CANCELED) {
-		         // Handle cancel
-		      }
-		   }
-		}
+//	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+//		System.out.println("Here");   
+//		if (requestCode == 0) {
+//		      if (resultCode == RESULT_OK) {
+//		         String contents = intent.getStringExtra("SCAN_RESULT");
+//		         String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+//		     	System.out.println(contents); 
+////		         System.out.println(contents);
+////		         Utils.toast(this, contents);
+//		         // Handle successful scan
+//		      } else if (resultCode == RESULT_CANCELED) {
+//		    		System.out.println("Else"); 
+//		         // Handle cancel
+//		      }
+//		   }
+//		}
 
 }
