@@ -1,44 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" 
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="wrap_content" android:layout_width="match_parent" android:orientation="vertical">
+    
  <RelativeLayout android:id="@+id/first_tab"
                 android:orientation="vertical" 
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:padding="50px">
+                android:padding="50px">  
                 
                 <Button android:id="@+id/mycampus"  
-                	android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20px" 
-                    android:text="My Campus" 
+                	android:layout_width="100dip"
+                    android:layout_height="75dip"
+                    android:layout_marginTop="15px" 
+                    android:text="My Campus"
+                    android:drawableTop="@drawable/ic_mycampus"
                     android:onClick="MyCampus"/>
                     
+                     
+                    
                 <Button android:id="@+id/mycafe"
-                	android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" 
+                	android:layout_width="100dip"
+                    android:layout_height="75dip"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="20px"
+                    android:layout_marginTop="15px"
                     android:text="My Cafe" 
+                    android:drawableTop="@drawable/ic_mycafe"                   
                     android:onClick="MyCafe"/>
                     
                 <Button android:id="@+id/myvisit" 
-                	android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" 
+                	android:layout_width="100dip"
+                    android:layout_height="75dip" 
                     android:text="My Visit" 
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="100px"
+                    android:layout_marginBottom="70px"
+                    android:drawableTop="@drawable/ic_myvisit"
                     android:onClick="MyVisit"/>
                     
                 <Button android:id="@+id/myride" 
-                	android:layout_width="wrap_content"
-                 	android:layout_height="wrap_content" 
+                	android:layout_width="100dip"
+                 	android:layout_height="75dip" 
                  	android:text="My Ride" 
                  	android:layout_alignParentRight="true"
                  	android:layout_alignParentBottom="true"
-                 	android:layout_marginBottom="100px"
+                 	android:layout_marginBottom="70px"
+                 	android:drawableTop="@drawable/ic_myride"
                  	android:onClick="MyRide"/>
             </RelativeLayout>
 </LinearLayout>

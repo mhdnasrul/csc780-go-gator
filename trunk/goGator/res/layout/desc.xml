@@ -14,7 +14,7 @@
               <Button android:id="@+id/button" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_marginTop="25px"
         android:layout_marginBottom="25px" android:layout_gravity="center"
-        android:text="Map It!!" android:onClick="mapIt"></Button>
+        android:text="Map It!!" android:drawableTop="@drawable/ic_mapit"  android:onClick="mapIt"></Button>
             
     </LinearLayout>
 
