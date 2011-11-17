@@ -54,8 +54,10 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -82,24 +84,38 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 	private boolean inBuilding;
 	private int step;
 	private List<Overlay> mapOverlays;
+	private RotatedMapView rMapView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maptab);
 		
+//		NorthNeedle needle = new NorthNeedle(this);
+//		ImageView image = new ImageView(this);
+//		
+////		Bitmap bmp = BitmapFactory.decodeResource(getResources(),
+////				R.drawable.needle);
+////		ImageView image = (ImageView) findViewById(R.id.test_image);
+//        Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.needle);
+//        Matrix mat = new Matrix();
+//        mat.postRotate(90);
+//        Bitmap bMapRotate = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), mat, true);
+//        image.setImageBitmap(bMapRotate);
+////		needle.setImageBitmap(bmp);
+//		llneedle.addView(image);
+////		llneedle.addView(needle);
+		
+		rMapView = (RotatedMapView) findViewById(R.id.rotating_layout);
 		
 		MapView mapView = (MapView) findViewById(R.id.mapview);
+		
 		mapView.setBuiltInZoomControls(true);
-//		 LinearLayout zoomLayout = (LinearLayout)findViewById(R.id.zoom);  
-//		 Button b = (Button) findViewById(R.id.mycampus);
-//	 
-//	        zoomLayout.addView(b, 
-//	            new LinearLayout.LayoutParams(
-//	                LayoutParams.WRAP_CONTENT, 
-//	                LayoutParams.WRAP_CONTENT)); 
-//	        mapView.displayZoomControls(true);
 		mapView.setSatellite(true);
+		rMapView.setMapView(mapView);
+		
+		rMapView.setRotateEnabled(false);
+		
 		
 		setContext(this);
 		
@@ -116,8 +132,6 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		// To place current Location marker on Map
 		MyLocationOverlay myLocationOverlay = new MyLocationOverlay();
 		mapOverlays.add(myLocationOverlay);
-//		mapOverlays.add(new markerOverlay(drawable, this, BuildingItems
-//				.getBuildingItem(0)).getItemizedoverlay());
 		
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Criteria criteria = new Criteria();
@@ -151,11 +165,6 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			// To add all building markers on Map
 			mapOverlays.add(new markerOverlay(drawable, this, BuildingItems
 					.getBuildingItems()).getItemizedoverlay());
-			// My Dijkstra Testing
-			// MyGeoPoint[] mygp = MyGeoPoint.getMygp();
-			// ArrayList<MyGeoPoint> gps = CampusMap.findShortestPath(mygp[0],
-			// mygp[24]);
-			// System.out.println(gps);
 
 			// For default Arrow Direction TODO: Might want to comment this line after testing
 			destLocation = new GeoPoint(37722734, -122478966);
@@ -209,7 +218,17 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		mc = mapView.getController();
 		mc.animateTo(currLocation);
 		mc.setZoom(17);
+		
+		
 	}
+	
+	public void rotateMap(View v) {
+	    if(rMapView.isRotateEnabled())
+	    	rMapView.setRotateEnabled(false);
+	    else
+	    	rMapView.setRotateEnabled(true);
+	}
+	
 	 private class DrawPathTask extends AsyncTask<ProgressDialog, String, String> {
 	     protected String doInBackground(ProgressDialog... dialog) {
 	    	 DrawPath(currLocation, destLocation, Color.GREEN);
@@ -281,7 +300,8 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 				azimut = orientation[0]; // orientation contains: azimut, pitch
 											// and roll
 				azimut = azimut * 360 / (2 * 3.14159f);
-				azimut -= 30;			//Manual Adjustment as arrow is initially pointing on east.
+//				azimut -= 30;			//Manual Adjustment as arrow is initially pointing on east.
+//				System.out.println(azimut);
 			}
 		}
 	}
@@ -292,7 +312,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 	}
 
 	public class MyLocationOverlay extends com.google.android.maps.Overlay {
-
+		
 		@Override
 		public boolean draw(Canvas canvas, MapView mapView, boolean shadow,
 				long when) {
@@ -322,17 +342,16 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			
 			//This angle if you want pointer to point where you 'should be' heading.
 			// Find Angle between two planar points in radians
-			float angle = findAngle(point1, point2);
+//			float angle = findAngle(point1, point2);
 			
 			//This angle if you want pointer to point where you 'are' heading.
-			angle = azimut;
+//			float angle = azimut;
 			
-			// System.out.println(angle);
 			// Put arrow in right location on Map and give it the calculated
 			// angle
 			Matrix matrix = new Matrix();
 			matrix.postTranslate(-25, -25);
-			matrix.postRotate(angle);
+			matrix.postRotate(azimut);
 			matrix.postTranslate(point1.x, point1.y);
 
 			// Set paint parameters
@@ -341,6 +360,30 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 
 			// Finally Draw it with calculated matrix
 			canvas.drawBitmap(bmp, matrix, paint);
+			
+//			Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.needle);
+//	        Matrix mat = new Matrix();
+////	        matrix.postTranslate(-25, -25);
+//	        mat.postRotate(azimut, bMap.getWidth()/2,bMap.getHeight()/2);
+////	        matrix.postTranslate(25, 25);
+////	        Bitmap bMapRotate = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), mat, true);
+//	        canvas.drawBitmap(bMap, mat, paint);
+	        
+	        if(rMapView.isRotateEnabled()){
+	        	if(azimut>=0)
+	        		rMapView.setCompassBearing(azimut);
+	        	else
+	        		rMapView.setCompassBearing(360+azimut);	//Because RotatedMapView 
+	        }
+//			llneedle.
+//			ImageView image = new ImageView(getContext());
+//			
+//	        Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.needle);
+//	        Matrix mat = new Matrix();
+//	        mat.postRotate(azimut);
+//	        Bitmap bMapRotate = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), mat, true);
+//	        image.setImageBitmap(bMapRotate);
+//			llneedle.addView(image);
 
 			return true;
 		}
@@ -367,6 +410,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		}
 
 	}
+	
 
 	private class MyLocationListener implements LocationListener {
 		
@@ -488,10 +532,6 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 					+ (gp.getGploc().getLatitude() / 1E6) + ",0.000000 ";
 		}
 		System.out.println("Path:" + path);
-		// String path1 =
-		// doc.getElementsByTagName("GeometryCollection").item(0).getFirstChild().getFirstChild().getFirstChild().getNodeValue()
-		// ;
-		// System.out.println("Path1:"+path1);
 		String[] pairs = path.split(" ");
 		String[] lngLat = pairs[0].split(","); // lngLat[0]=longitude
 												// lngLat[1]=latitude
