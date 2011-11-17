@@ -3,34 +3,44 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
+<screen.level1.RotatedMapView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/rotating_layout">
+        
     <com.google.android.maps.MapView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mapview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:apiKey="0PVBjW1QHkf4fAS17_vgtbnO4jsQnEsit244vMA"
+        android:apiKey="0PVBjW1QHkf7Efxx-z4tZnwOzUWQg00vyk0lh5A"
         android:clickable="true"
         android:enabled="true" />
+</screen.level1.RotatedMapView>
 
     <LinearLayout
-        android:id="@+id/zoom"
+        android:id="@+id/laminate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" >
 
         <ImageView
-            android:id="@+id/mycampus"
+            android:id="@+id/needle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/needle">
+            android:src="@drawable/needle"
+            android:paddingLeft="20px"
+            android:onClick="rotateMap">
         </ImageView>
+        
     </LinearLayout>
 
-</RelativeLayout><!--
+</RelativeLayout>
+
+<!--
     android:apiKey="0LXJb0xpTeLgt289uArlFgcH1xyUcGPNM4AgDcw" <-Nikitas's API Key
 	android:apiKey="0PVBjW1QHkf4fAS17_vgtbnO4jsQnEsit244vMA" <-Nilay's API Key
 	android:apiKey="0LXJb0xpTeLiz2u42XPOK_4g3I8a1ETkEGzR0bg" <-Application API Key
-
+	android:apiKey="0PVBjW1QHkf7Efxx-z4tZnwOzUWQg00vyk0lh5A" <-Nilay's Mac-API Key
 -->
