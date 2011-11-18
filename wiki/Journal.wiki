@@ -4,8 +4,6 @@
 ==*Completed:*==
 
  *  The whole map rotates as the user rotates the phone. The user can orient the phone to a particular direction and obtain a mapview in that orientation   
-
- *  As the whole map rotates, the arrow always points to North. Like this the user knows if he is heading east or southwest or the like. 
  
  *  Created a SQLite database named gatorDB for storing geopoints, name and description.
 
@@ -13,7 +11,7 @@
 
 ==*In progress:*==
 
- *  Integration of campus and building navigation.
+ *  As the whole map rotates, the arrow always points to North. Like this the user knows if he is heading east or southwest or the like. 
 
  *  Implementation of !MyRide 
  
