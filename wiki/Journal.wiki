@@ -1,4 +1,29 @@
 #labels JournalEntry
+
+=*Week7 (11/10 - 11/17)*=
+
+==*Completed:*==
+
+ *  The whole map rotates as the user rotates the phone. The user can orient the phone to a particular direction and obtain a mapview in that orientation   
+
+ *  As the whole map rotates, the arrow always points to North. Like this the user knows if he is heading east or southwest or the like. 
+ 
+ *  Created a SQLite database named gatorDB for storing geopoints, name and description.
+
+ *  ListView for MyCafe is displayed through a handler of the database.
+
+==*In progress:*==
+
+ *  Integration of campus and building navigation.
+
+ *  Implementation of MyRide 
+ 
+ *  Using database handlers for campus and building activities.   
+
+ *  Showing popup on the markers which leads to !MapIt button.
+
+
+------------------------------------------------------------------------
 =*Week5&6 (10/27 - 11/10)*=
 
 ==*Completed:*==
