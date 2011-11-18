@@ -7,6 +7,8 @@
  
  *  Created a SQLite database named gatorDB for storing geopoints, name and description.
 
+*  Changed the way map is loaded to display the !MapView faster. 
+
  *  !ListView for !MyCafe is displayed through a handler of the database.
 
 ==*In progress:*==
