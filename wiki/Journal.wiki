@@ -3,11 +3,11 @@
 
 ==*Completed:*==
 
- *  The whole map rotates as the user rotates the phone. The user can orient the phone to a particular direction and obtain a mapview in that orientation   
+ *  The whole map rotates as the user rotates the phone. The user can orient the phone to a particular direction and obtain a mapview in that orientation 
+
+ *  Improved performance to calculate and load path used in Campus Navigation by a big factor.   
  
  *  Created a SQLite database named gatorDB for storing geopoints, name and description.
-
- *  Changed the way map is loaded to display the !MapView faster. 
 
  *  !ListView for !MyCafe is displayed through a handler of the database.
 
