@@ -1,5 +1,4 @@
 #labels JournalEntry
-
 =*Week7 (11/10 - 11/17)*=
 
 ==*Completed:*==
@@ -10,13 +9,13 @@
  
  *  Created a SQLite database named gatorDB for storing geopoints, name and description.
 
- *  ListView for MyCafe is displayed through a handler of the database.
+ *  !ListView for !MyCafe is displayed through a handler of the database.
 
 ==*In progress:*==
 
  *  Integration of campus and building navigation.
 
- *  Implementation of MyRide 
+ *  Implementation of !MyRide 
  
  *  Using database handlers for campus and building activities.   
 
