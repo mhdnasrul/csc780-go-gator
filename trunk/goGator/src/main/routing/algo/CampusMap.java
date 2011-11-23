@@ -48,7 +48,8 @@ public class CampusMap {
 //            }
 //          }).start();
 //	
-		
+		System.out.println("Source"+source);
+		System.out.println("Destination"+destination);
 		//Now find path to with the destination
 		DijkstraEngine engine = GoGatorActivity.getEngine();
 		engine.execute(source, destination);
