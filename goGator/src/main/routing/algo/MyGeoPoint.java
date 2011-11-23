@@ -37,6 +37,7 @@ public final class MyGeoPoint implements Comparable<MyGeoPoint>
 //		{
 //			mygp[getIndexForName(c)] = new MyGeoPoint(c);
 //		}
+		RouteDictionary rD = new RouteDictionary();
 		routeDictionary = RouteDictionary.getRouteDictionary();
 		MAX_NUMBER = routeDictionary.length;
 		pathFrags=MAX_NUMBER;
@@ -163,7 +164,6 @@ public final class MyGeoPoint implements Comparable<MyGeoPoint>
 	}
 	
     private static boolean LOCcompare(Location loc, Location loc2) {
-//    	System.out.println((loc.getLatitude()/1E6)+"="+(loc2.getLatitude()/1E6));
 		if((loc.getLatitude()/1E6)== (loc2.getLatitude()/1E6) && (loc.getLongitude()/1E6) == (loc2.getLongitude()/1E6))
 			return true;
 		return false;
@@ -175,7 +175,6 @@ public final class MyGeoPoint implements Comparable<MyGeoPoint>
 		for(int i=0;i<MAX_NUMBER;i++){
 			dist[i]=(float) (loc.distanceTo(MyGeoPoint.mygp[i].getGploc())/1E6);
 		}
-//		System.out.println(main.overlay.MyMappedPath.smallestIndex(dist));
 		return mygp[Utils.smallestIndex(dist)];
 	}
 

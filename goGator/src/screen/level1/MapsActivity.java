@@ -91,21 +91,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maptab);
 		
-//		NorthNeedle needle = new NorthNeedle(this);
-//		ImageView image = new ImageView(this);
-//		
-////		Bitmap bmp = BitmapFactory.decodeResource(getResources(),
-////				R.drawable.needle);
-////		ImageView image = (ImageView) findViewById(R.id.test_image);
-//        Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.needle);
-//        Matrix mat = new Matrix();
-//        mat.postRotate(90);
-//        Bitmap bMapRotate = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), mat, true);
-//        image.setImageBitmap(bMapRotate);
-////		needle.setImageBitmap(bmp);
-//		llneedle.addView(image);
-////		llneedle.addView(needle);
-		
+		//Rotating Layout which has MapView loaded in it.
 		rMapView = (RotatedMapView) findViewById(R.id.rotating_layout);
 		
 		MapView mapView = (MapView) findViewById(R.id.mapview);
