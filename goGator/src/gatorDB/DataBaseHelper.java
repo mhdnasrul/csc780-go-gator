@@ -90,7 +90,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			String myPath = DB_PATH + DB_NAME;
 			checkDB = SQLiteDatabase.openDatabase(myPath, null,
 					SQLiteDatabase.OPEN_READONLY);
-			// checkDB = null; //Uncomment this line after you copy new gatorDB
+			 // checkDB = null; //Uncomment this line after you copy new gatorDB
 			// in assets
 		} catch (SQLiteException e) {
 
@@ -110,7 +110,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	/**
 	 * Copies your database from your local assets-folder to the just created
 	 * empty database in the system folder, from where it can be accessed and
-	 * handled. This is done by transfering bytestream.
+	 * handled. This is done by transferring bytestream.
 	 * */
 	private void copyDataBase() throws IOException {
 
@@ -220,6 +220,42 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 					"SELECT _id, latitude, longitude, neighbors FROM "
 							+ DataBaseHelper.getTableName()
 							+ " where neighbors!='todo'", null);
+			if (c != null) {
+				if (c.moveToFirst()) {
+					do {
+						String[] row = new String[4];
+						row[0] = c.getString(c.getColumnIndex("_id"));
+						row[1] = c.getString(c.getColumnIndex("latitude"));
+						row[2] = c.getString(c.getColumnIndex("longitude"));
+						row[3] = c.getString(c.getColumnIndex("neighbors")).replaceAll("\\|", ",");
+						resSet.add(row);
+					} while (c.moveToNext());
+				}
+			}
+			c.close();
+
+		} catch (SQLException sqle) {
+			throw sqle;
+
+		} finally {
+
+			myDataBase.close();
+		}
+
+		String[][] res = new String[resSet.size()][4];
+		for (int i = 0; i < resSet.size(); i++) {
+			res[i] = resSet.get(i);
+		}
+		return res;
+	}
+	
+	public static String[][] queryBldg(String bldg) {
+		ArrayList<String[]> resSet = new ArrayList<String[]>();
+		try {
+			myDataBase = GoGatorActivity.getMyDbHelper().getReadableDatabase();
+			Cursor c = myDataBase.rawQuery(
+					"SELECT _id, latitude, longitude, neighbors FROM bldgGeoPointTable"
+							+ " where neighbors!='todo' AND type='"+bldg+"'", null);
 			if (c != null) {
 				if (c.moveToFirst()) {
 					do {
