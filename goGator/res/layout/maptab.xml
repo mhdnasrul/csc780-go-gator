@@ -35,6 +35,34 @@
         </ImageView>
         
     </LinearLayout>
+    
+        <LinearLayout
+        android:id="@+id/toplaminate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+
+        <ImageView
+            android:id="@+id/scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/scan"
+            android:paddingLeft="20px"
+            android:onClick="scanIt"
+		>
+        </ImageView>
+        
+        <ImageView
+            android:id="@+id/locateme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/locateme"
+            android:paddingLeft="20px"
+            android:onClick="locateMe">
+        </ImageView>
+        
+    </LinearLayout>
 
 </RelativeLayout>
 

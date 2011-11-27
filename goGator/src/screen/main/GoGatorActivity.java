@@ -4,7 +4,6 @@ import gatorDB.DataBaseHelper;
 
 import java.io.IOException;
 
-import main.common.Utils;
 import main.data.BuildingItems;
 import main.data.CafeItems;
 import main.data.DeptItems;
@@ -16,26 +15,23 @@ import screen.level1.CameraActivity;
 import screen.level1.HomeActivity;
 import screen.level1.MapsActivity;
 import screen.level1.MoreActivity;
-import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.database.SQLException;
 import android.os.Bundle;
 import android.widget.TabHost;
 
 public class GoGatorActivity extends TabActivity {
-
-	/** Called when the activity is first created. */
 	private static RoutesMap campusmap;
 	private static DijkstraEngine engine;
 	private static DataBaseHelper myDbHelper;
+	
+	/** Called when the activity is first created. */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		openAndQueryDatabase();
+		openDatabaseForQuery();
 		setContentView(R.layout.main);
 
 		Resources res = getResources(); // Resource object to get Drawables
@@ -59,10 +55,6 @@ public class GoGatorActivity extends TabActivity {
 				.setContent(intent);
 		tabHost.addTab(spec);
 
-		// intent = new Intent("com.google.zxing.client.android.SCAN");
-		// intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-		// startActivityForResult(intent, 0);
-
 		intent = new Intent().setClass(this, CameraActivity.class);
 		spec = tabHost
 				.newTabSpec("camera")
@@ -79,16 +71,19 @@ public class GoGatorActivity extends TabActivity {
 
 		tabHost.setCurrentTab(0);
 
+		System.out.println("GoGator Called!!!");
 		// Setting the lists
 		new BuildingItems();
 		new DeptItems();
 		new CafeItems();
 		new VisitItems();
 
+		
 		new Thread(new Runnable() {
 			public void run() {
 				campusmap = CampusMap.generateCampusMap();
 				// Generate Campus Map and feed it to Dijkstra Engine
+				//TODO: Below line is the source of noise on emulator. Although on device there is no problem. Look it up on priority.
 				engine = new DijkstraEngine(campusmap);
 			}
 		}).start();
@@ -116,45 +111,13 @@ public class GoGatorActivity extends TabActivity {
 		return engine;
 	}
 
-	// public void onActivityResult(int requestCode, int resultCode, Intent
-	// intent) {
-	// System.out.println("Here");
-	// if (requestCode == 0) {
-	// if (resultCode == RESULT_OK) {
-	// String contents = intent.getStringExtra("SCAN_RESULT");
-	// String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-	// System.out.println(contents);
-	// // System.out.println(contents);
-	// // Utils.toast(this, contents);
-	// // Handle successful scan
-	// } else if (resultCode == RESULT_CANCELED) {
-	// System.out.println("Else");
-	// // Handle cancel
-	// }
-	// }
-	// }
 
-	private void openAndQueryDatabase() {
-
+	private void openDatabaseForQuery() {
 	  myDbHelper = new DataBaseHelper(this);
-
 		try {
-
 			myDbHelper.createDataBase();
-
 		} catch (IOException ioe) {
-
 			throw new Error("Unable to create database");
-
-		}
-
-		try {
-
-//			myDbHelper.openDataBase();
-
-		} catch (SQLException sqle) {
-			throw sqle;
-
 		}
 
 	}
