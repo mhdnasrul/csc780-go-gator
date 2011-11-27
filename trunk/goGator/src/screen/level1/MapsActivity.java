@@ -208,12 +208,25 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		
 	}
 	
+	//Needle Image Click
 	public void rotateMap(View v) {
 	    if(rMapView.isRotateEnabled())
 	    	rMapView.setRotateEnabled(false);
 	    else
 	    	rMapView.setRotateEnabled(true);
 	}
+	
+	//To animate to Current location
+	public void locateMe(View v) {
+		mc.animateTo(currLocation);
+	}
+	
+	//To start Scanning QRCode
+		public void scanIt(View v) {
+			Intent  intent = new Intent("com.google.zxing.client.android.SCAN");
+	        intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+	        startActivityForResult(intent, 0);
+		}
 	
 	 private class DrawPathTask extends AsyncTask<ProgressDialog, String, String> {
 	     protected String doInBackground(ProgressDialog... dialog) {
@@ -229,28 +242,43 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 	         System.out.println(result);
 	     }
 	 }
-//	public void QRScan(){
-//    	Intent  intent = new Intent("com.google.zxing.client.android.SCAN");
-//        intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-//        startActivityForResult(intent, 0);
-//    }
-//    
-//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-//		System.out.println("Here");   
-//		if (requestCode == 0) {
-//		      if (resultCode == RESULT_OK) {
-//		         String contents = intent.getStringExtra("SCAN_RESULT");
-//		         String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-//		     	System.out.println(contents); 
-////		         System.out.println(contents);
-////		         Utils.toast(this, contents);
-//		         // Handle successful scan
-//		      } else if (resultCode == RESULT_CANCELED) {
-//		    		System.out.println("Else"); 
-//		         // Handle cancel
-//		      }
-//		   }
-//		}
+	 public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+			if (requestCode == 0) {
+			      if (resultCode == RESULT_OK) {
+			         String contents = intent.getStringExtra("SCAN_RESULT");
+			         String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+			     	System.out.println(contents); 
+			     	String[] values = contents.split(",");
+			     	int step = Integer.parseInt(values[0]);
+			     	
+			     	if(step == 0){
+				     	Context context = MapsActivity.getContext();
+						String message = "You have reached \"Thornton Hall\". Do you want to Navigate within the building?";
+						AlertDialog.Builder builder = new AlertDialog.Builder(context);
+						builder.setMessage(message).setCancelable(false)
+								.setPositiveButton("Navigate", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										Utils.navalert(MapsActivity.context,"Walk further to reach point "+RouteDictionary.getTHDictionary()[0][0]);
+									}
+								});
+						builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										dialog.cancel();
+									}
+								});
+						AlertDialog alert = builder.create();
+						alert.show();
+			     	}
+			     	else{
+							Utils.navalert(MapsActivity.context,"Walk further to reach point "+RouteDictionary.getTHDictionary()[step][0]);
+			     	}
+			         // Handle successful scan
+			      } else if (resultCode == RESULT_CANCELED) {
+			    		System.out.println("Else"); 
+			         // Handle cancel
+			      }
+			   }
+			}
 	protected void onResume() {
 		super.onResume();
 		mSensorManager.registerListener(this, accelerometer,
@@ -476,9 +504,9 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			
 			
 			System.out.println("Location is changed!!!");
-			
-			mc.animateTo(currLocation);
-			mc.setZoom(17);
+			//No need to reset view with location changed.
+//			mc.animateTo(currLocation);
+//			mc.setZoom(17);
 
 		}
 
