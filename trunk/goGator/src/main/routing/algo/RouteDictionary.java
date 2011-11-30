@@ -1,5 +1,8 @@
 package main.routing.algo;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 import gatorDB.DataBaseHelper;
 
 public class RouteDictionary {
@@ -27,6 +30,7 @@ public class RouteDictionary {
 	public RouteDictionary(){
 		RouteDictionary.routeDictionary = DataBaseHelper.queryDict();
 		RouteDictionary.THDictionary = DataBaseHelper.queryBldg("th");
+//		testDistance();
 	}
 	/**
 	 * @param routeDictionary
@@ -55,5 +59,12 @@ public class RouteDictionary {
 	 */
 	public static String[][] getTHDictionary() {
 		return THDictionary;
+	}
+	
+	public static void testDistance() {
+		String res="";
+		for(int i=0;i<routeDictionary.length;i++){
+			res+=routeDictionary[i][0]+"->"+routeDictionary[i][3].split(",");
+		}
 	}
 }

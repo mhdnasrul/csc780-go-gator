@@ -74,17 +74,19 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 	private LocationManager lm;
 	private LocationListener ll;
 	private MapController mc;
-	public GeoPoint currLocation, destLocation, prevRecLocation;
+	private GeoPoint currLocation, destLocation, prevRecLocation;
 	private String provider;
-	float azimut;
+	private float azimut;
 	private SensorManager mSensorManager;
-	Sensor accelerometer;
-	Sensor magnetometer;
+	private Sensor accelerometer;
+	private Sensor magnetometer;
 	private static Context context;
 	private boolean inBuilding;
 	private int step;
 	private List<Overlay> mapOverlays;
 	private RotatedMapView rMapView;
+	private float[] mGravity;
+	private float[] mGeomagnetic;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -103,7 +105,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		rMapView.setMapView(mapView);
 		rMapView.setRotateEnabled(false);
 
-		// setContect to used for dialog boxes to appear
+		// setContext to used for dialog boxes to appear
 		context = this;
 
 		// Register the sensor listeners
@@ -162,7 +164,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		if (from.equalsIgnoreCase("tab")) {
 			// To add all building markers on Map
 			mapOverlays.add(new markerOverlay(drawable, this, BuildingItems
-					.getBuildingItems()).getItemizedoverlay());
+					.getBuildingItems(), mapView).getItemizedoverlay());
 
 			// For default Arrow Direction
 			destLocation = new GeoPoint(37722734, -122478966);
@@ -183,7 +185,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 				myItem = VisitItems.getVisitItem(index);
 
 			// Add Destination Marker
-			mapOverlays.add(new markerOverlay(drawable, this, myItem)
+			mapOverlays.add(new markerOverlay(drawable, this, myItem, mapView)
 					.getItemizedoverlay());
 
 			// Get Destination GeoLocation
@@ -332,8 +334,6 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 	}
 
-	float[] mGravity;
-	float[] mGeomagnetic;
 
 	// Function that calculates Azimut angle from Magnetometer readings.
 	public void onSensorChanged(SensorEvent event) {
