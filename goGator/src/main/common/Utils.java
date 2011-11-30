@@ -8,6 +8,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.location.Location;
+import android.util.FloatMath;
+import android.view.Gravity;
 import android.widget.Toast;
 
 public class Utils {
@@ -73,6 +75,7 @@ public class Utils {
 
 	public static void toast(Context context, String text) {
 		Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
 		toast.show();
 	}
 	
@@ -133,6 +136,31 @@ public class Utils {
 	      num = num * 180 / Math.PI;
 		  return num;
 	}
+	
+	public static double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
+		float pk = (float) (180/3.14169);
+
+		  float a1 = lat_a / pk;
+		  float a2 = lng_a / pk;
+		  float b1 = lat_b / pk;
+		  float b2 = lng_b / pk;
+
+		  float t1 = FloatMath.cos(a1)*FloatMath.cos(a2)*
+		     FloatMath.cos(b1)*FloatMath.cos(b2);
+		  float t2 = FloatMath.cos(a1)*FloatMath.sin(a2)*
+		     FloatMath.cos(b1)*FloatMath.sin(b2);
+		  float t3 = FloatMath.sin(a1)*FloatMath.sin(b1);
+		  double tt = Math.acos(t1 + t2 + t3);
+		  double res = 6366000*tt;
+		  System.out.println(lat_a+" "+lng_a+" "+lat_b+" "+lng_b+" "+res);  
+			
+		  return 6366000*tt;
+		}
+	
+	public static double gps2m(Location a, Location b) {
+		
+		  return gps2m((float)(a.getLatitude()/1E6),(float)(a.getLongitude()/1E6),(float)(b.getLatitude()/1E6),(float)(b.getLongitude()/1E6));
+		}
 	/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 	/* Vincenty Inverse Solution of Geodesics on the Ellipsoid (c) Chris Veness 2002-2011             */
 	/*                                                                                                */
