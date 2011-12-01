@@ -1,5 +1,7 @@
 package screen.level1;
 
+import screen.level1.overlay.BalloonItemizedOverlay;
+import screen.level1.overlay.mapOverlay;
 import screen.level1.overlay.markerOverlay;
 import screen.level2.overlay.rideOverlay;
 import screen.main.GoGatorActivity;
@@ -74,7 +76,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 	private LocationManager lm;
 	private LocationListener ll;
 	private MapController mc;
-	private GeoPoint currLocation, destLocation, prevRecLocation;
+	public GeoPoint currLocation, destLocation, prevRecLocation;
 	private String provider;
 	private float azimut;
 	private SensorManager mSensorManager;
@@ -87,12 +89,18 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 	private RotatedMapView rMapView;
 	private float[] mGravity;
 	private float[] mGeomagnetic;
+	private MapView mapView;
+	private Drawable drawable;
+	public markerOverlay mFlagOverlay;
+	public List<rideOverlay> mPathOverlay;
+	private ImageView showBuildingButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maptab);
-
+		showBuildingButton = (ImageView) findViewById(R.id.reset);
+		showBuildingButton.setVisibility(View.INVISIBLE);
 		// Rotating Layout which has MapView loaded in it.
 		rMapView = (RotatedMapView) findViewById(R.id.rotating_layout);
 
@@ -117,7 +125,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 
 		// Initialize to get overlays over map e.g. Flags, Drawing Path etc.
 		mapOverlays = mapView.getOverlays();
-		Drawable drawable = this.getResources().getDrawable(R.drawable.flag);
+		drawable = this.getResources().getDrawable(R.drawable.flag);
 
 		// To place current Location marker on Map
 		MyLocationOverlay myLocationOverlay = new MyLocationOverlay();
@@ -163,8 +171,11 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		// accordingly.
 		if (from.equalsIgnoreCase("tab")) {
 			// To add all building markers on Map
-			mapOverlays.add(new markerOverlay(drawable, this, BuildingItems
-					.getBuildingItems(), mapView).getItemizedoverlay());
+//			mapOverlays.add(new markerOverlay(drawable, this, BuildingItems
+//					.getBuildingItems(), mapView).getItemizedoverlay());
+			mFlagOverlay = new markerOverlay(drawable, BuildingItems
+					.getBuildingItems(), mapView, this);
+			mapOverlays.add(mFlagOverlay.getItemizedoverlay());
 
 			// For default Arrow Direction
 			destLocation = new GeoPoint(37722734, -122478966);
@@ -185,7 +196,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 				myItem = VisitItems.getVisitItem(index);
 
 			// Add Destination Marker
-			mapOverlays.add(new markerOverlay(drawable, this, myItem, mapView)
+			mapOverlays.add(new markerOverlay(drawable, myItem, mapView)
 					.getItemizedoverlay());
 
 			// Get Destination GeoLocation
@@ -258,7 +269,15 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 	public void locateMe(View v) {
 		mc.animateTo(currLocation);
 	}
-
+	
+	// Restore MapActivity to original state
+	public void resetLayout(View v) {
+		for(Overlay item: mPathOverlay)
+			mapOverlays.remove(item);
+		mapOverlays.add(mFlagOverlay.getItemizedoverlay());
+		showBuildingButton.setVisibility(View.INVISIBLE);
+	}
+		
 	// To start Scanning QRCode - Scan Image Click
 	public void scanIt(View v) {
 		Intent intent = new Intent("com.google.zxing.client.android.SCAN");
@@ -573,13 +592,12 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		}
 	}
 
-	private void DrawPath(GeoPoint src, GeoPoint dest, int color) {
-
+	public void DrawPath(GeoPoint src, GeoPoint dest, int color) {
+		mPathOverlay = new ArrayList<rideOverlay>();
+		
 		// Dijkstra Part
 		new MyGeoPoint();
 		System.out.println("Max Number");
-
-		MyGeoPoint[] mygp = MyGeoPoint.getMygp();
 
 		ArrayList<MyGeoPoint> gps = CampusMap.findShortestPath(
 				MyGeoPoint.getNearestMyGeoPoint(src),
@@ -604,7 +622,9 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		GeoPoint startGP = new GeoPoint(
 				(int) (Double.parseDouble(lngLat[1]) * 1E6),
 				(int) (Double.parseDouble(lngLat[0]) * 1E6));
-		mapOverlays.add(new rideOverlay(startGP, startGP, 1));
+		mPathOverlay.add(new rideOverlay(startGP, startGP, 1));
+//		mapOverlays.add(mPathOverlay[0]);
+//		mapOverlays.add(new rideOverlay(startGP, startGP, 1));
 		// Adding startpoint to mappedPath
 		mappedpath.add(Utils.geoToLoc(startGP));
 
@@ -617,16 +637,95 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			// watch out! For GeoPoint, first:latitude, second:longitude
 			gp2 = new GeoPoint((int) (Double.parseDouble(lngLat[1]) * 1E6),
 					(int) (Double.parseDouble(lngLat[0]) * 1E6));
-			mapOverlays.add(new rideOverlay(gp1, gp2, 2, color));
-			// new rideOverlay(gp1, gp2, 2, color);
-			// Log.d("xxx","pair:" + pairs[i]);
+			mPathOverlay.add(new rideOverlay(gp1, gp2, 2, color));
+//			mapOverlays.add(mPathOverlay[1]);
+//			mapOverlays.add(new rideOverlay(gp1, gp2, 2, color));
 			// Adding geopoints as location to mappedpath
 			mappedpath.add(Utils.geoToLoc(gp2));
 		}
 		MyMappedPath.setMypath(mappedpath);
-
-		mapOverlays.add(new rideOverlay(dest, dest, 3)); // use the
+		mPathOverlay.add(new rideOverlay(dest, dest, 3));
+		
+		mapOverlays.addAll(mPathOverlay); // use the
 															// default
+		
+		
+		showBuildingButton.setVisibility(View.VISIBLE);
 	}
 
+// class markerOverlay {
+//		private mapOverlay itemizedoverlay;
+//		
+//		public markerOverlay(Drawable defaultMarker, MyOverlayItem myItem, MapView mapView){
+//			this.itemizedoverlay = new mapOverlay(defaultMarker, mapView);
+//				itemizedoverlay.addOverlay(myItem);
+//		}
+//		
+//		public markerOverlay(Drawable defaultMarker, ArrayList<MyOverlayItem> myItems, MapView mapView){
+//			this.itemizedoverlay = new mapOverlay(defaultMarker, mapView);
+//			for(MyOverlayItem myItem: myItems)
+//				itemizedoverlay.addOverlay(myItem);
+//		}
+//		
+//		public markerOverlay(Drawable defaultMarker, ArrayList<MyOverlayItem> myItems, MapView mapView, MapsActivity mapAct){
+//			this.itemizedoverlay = new mapOverlay(defaultMarker, mapView, mapAct);
+//			for(MyOverlayItem myItem: myItems)
+//				itemizedoverlay.addOverlay(myItem);
+//		}
+//		
+//		/**
+//		 * @param itemizedoverlay the itemizedoverlay to set
+//		 */
+//		public void setItemizedoverlay(mapOverlay itemizedoverlay) {
+//			this.itemizedoverlay = itemizedoverlay;
+//		}
+//
+//		/**
+//		 * @return the itemizedoverlay
+//		 */
+//		public mapOverlay getItemizedoverlay() {
+//			return itemizedoverlay;
+//		}
+// }
+// 
+// public class mapOverlay extends BalloonItemizedOverlay<MyOverlayItem> {
+//
+//		private ArrayList<MyOverlayItem> mOverlays = new ArrayList<MyOverlayItem>();
+//		private MapsActivity mapActivity;
+//		MapView mapView;
+//
+//		public mapOverlay(Drawable defaultMarker, MapView mapView) {
+//			super(boundCenter(defaultMarker), mapView);
+//		}
+//		
+//		public mapOverlay(Drawable defaultMarker, MapView mapView, MapsActivity mapAct) {
+//			super(boundCenter(defaultMarker), mapView);
+//			mapActivity = mapAct;
+//			this.mapView =  mapView;
+//		}
+//
+//		@Override
+//		protected MyOverlayItem createItem(int i) {
+//			return mOverlays.get(i);
+//		}
+//
+//		@Override
+//		public int size() {
+//			return mOverlays.size();
+//		}
+//
+//
+//		public void addOverlay(MyOverlayItem overlay) {
+//			mOverlays.add(overlay);
+//			this.populate();
+//		}
+//		
+//		@Override
+//		protected boolean onBalloonTap(int index, MyOverlayItem item) {
+//			DrawPath(currLocation, item.getPoint(), Color.GREEN);
+//			mapView.getOverlays().remove(1);
+//			return true;
+//		}
+//
+//	}
 }
