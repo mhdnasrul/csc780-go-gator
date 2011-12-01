@@ -78,8 +78,10 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.balloon_overlay, parent);
 		title = (TextView) v.findViewById(R.id.balloon_item_title);
-		snippet = (TextView) v.findViewById(R.id.balloon_item_snippet);
-
+		//Commented the default description as it will hog up the whole view otherwise
+//		snippet = (TextView) v.findViewById(R.id.balloon_item_snippet);
+		snippet = new TextView(context);
+		
 		ImageView close = (ImageView) v.findViewById(R.id.balloon_close);
 		close.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
