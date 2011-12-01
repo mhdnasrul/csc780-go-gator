@@ -2,37 +2,26 @@ package screen.level1.overlay;
 
 import java.util.ArrayList;
 
-import screen.level2.MyCampusBuildingActivity;
-import screen.level3.MyCampusDetailActivity;
-
+import screen.level1.MapsActivity;
 import main.overlay.MyOverlayItem;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
 
 public class mapOverlay extends BalloonItemizedOverlay<MyOverlayItem> {
 
 	private ArrayList<MyOverlayItem> mOverlays = new ArrayList<MyOverlayItem>();
+	private MapsActivity mapActivity;
+	private MapView mapView;
 
-	private Context context;
-
-//	public mapOverlay(Drawable defaultMarker) {
-//		super(boundCenterBottom(defaultMarker));
-//	}
-
-//	public mapOverlay(Drawable defaultMarker, Context context) {
-//		this(defaultMarker);
-//		this.context = context;
-//	}
-	
-	public mapOverlay(Drawable defaultMarker, Context context, MapView mapView) {
+	public mapOverlay(Drawable defaultMarker, MapView mapView) {
 		super(boundCenter(defaultMarker), mapView);
-		context = mapView.getContext();
+	}
+	
+	public mapOverlay(Drawable defaultMarker, MapView mapView, MapsActivity mapAct) {
+		super(boundCenter(defaultMarker), mapView);
+		mapActivity = mapAct;
+		this.mapView = mapView;
 	}
 
 	@Override
@@ -45,30 +34,17 @@ public class mapOverlay extends BalloonItemizedOverlay<MyOverlayItem> {
 		return mOverlays.size();
 	}
 
-//	@Override
-//	protected boolean onTap(int index) {
-//		OverlayItem item = mOverlays.get(index);
-//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-//		dialog.setTitle(item.getTitle());
-//		dialog.setMessage(item.getSnippet());
-////		dialog.setPositiveButton("Navigate!!", new DialogInterface.OnClickListener() {
-////	           public void onClick(DialogInterface interface_dialog, int id) {
-////	        	 //TODO: Polishing this code is left yet.
-//////	        	   new MyCampusBuildingActivity().listClickSimulation(0);
-////	           }
-////	       });
-//	    dialog.setNegativeButton("OK!", new DialogInterface.OnClickListener() {
-//	           public void onClick(DialogInterface interface_dialog, int id) {
-//	        	   interface_dialog.cancel();
-//	           }
-//	       });
-//		dialog.show();
-//		return true;
-//	}
-//	
+
 	public void addOverlay(MyOverlayItem overlay) {
 		mOverlays.add(overlay);
 		this.populate();
+	}
+	
+	@Override
+	protected boolean onBalloonTap(int index, MyOverlayItem item) {
+		mapActivity.DrawPath(mapActivity.currLocation, item.getPoint(), Color.GREEN);
+		mapView.getOverlays().remove(1);
+		return true;
 	}
 
 }

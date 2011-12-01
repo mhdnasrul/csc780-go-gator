@@ -19,6 +19,8 @@ package screen.level1.overlay;
 
 import java.util.List;
 
+import main.overlay.MyOverlayItem;
+
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,7 +41,7 @@ import screen.main.R;
  * 
  * @author Jeff Gilfelt
  */
-public abstract class BalloonItemizedOverlay<Item extends OverlayItem> extends ItemizedOverlay<Item> {
+public abstract class BalloonItemizedOverlay<Item extends MyOverlayItem> extends ItemizedOverlay<Item> {
 
 	private MapView mapView;
 	private BalloonOverlayView<Item> balloonView;

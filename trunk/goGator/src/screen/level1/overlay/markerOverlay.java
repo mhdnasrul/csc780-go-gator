@@ -2,26 +2,29 @@ package screen.level1.overlay;
 
 import java.util.ArrayList;
 
-import main.data.BuildingItems;
+import screen.level1.MapsActivity;
+
 import main.overlay.MyOverlayItem;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
-
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 public class markerOverlay {
 	private mapOverlay itemizedoverlay;
 	
-	public markerOverlay(Drawable defaultMarker, Context context, MyOverlayItem myItem, MapView mapView){
-		this.itemizedoverlay = new mapOverlay(defaultMarker, context, mapView);
+	public markerOverlay(Drawable defaultMarker, MyOverlayItem myItem, MapView mapView){
+		this.itemizedoverlay = new mapOverlay(defaultMarker, mapView);
 			itemizedoverlay.addOverlay(myItem);
 	}
 	
-	public markerOverlay(Drawable defaultMarker, Context context, ArrayList<MyOverlayItem> myItems, MapView mapView){
-		this.itemizedoverlay = new mapOverlay(defaultMarker, context, mapView);
+	public markerOverlay(Drawable defaultMarker, ArrayList<MyOverlayItem> myItems, MapView mapView){
+		this.itemizedoverlay = new mapOverlay(defaultMarker, mapView);
+		for(MyOverlayItem myItem: myItems)
+			itemizedoverlay.addOverlay(myItem);
+	}
+	
+	public markerOverlay(Drawable defaultMarker, ArrayList<MyOverlayItem> myItems, MapView mapView, MapsActivity mapAct){
+		this.itemizedoverlay = new mapOverlay(defaultMarker, mapView, mapAct);
 		for(MyOverlayItem myItem: myItems)
 			itemizedoverlay.addOverlay(myItem);
 	}
