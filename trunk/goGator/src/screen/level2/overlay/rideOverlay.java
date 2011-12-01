@@ -1,8 +1,11 @@
 package screen.level2.overlay;
 
+import screen.main.R;
 import android.graphics.Bitmap; 
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas; 
 import android.graphics.Color; 
+import android.graphics.Matrix;
 import android.graphics.Paint; 
 import android.graphics.Point; 
 import android.graphics.RectF; 
@@ -94,6 +97,13 @@ public class rideOverlay extends Overlay
 			/* end point */ 
 			paint.setAlpha(255); 
 			canvas.drawOval(oval, paint); 
+			
+			Matrix matrix = new Matrix();
+			matrix.postTranslate(-20, -20);
+			matrix.postTranslate(point.x, point.y);
+			Bitmap bitmap = BitmapFactory.decodeResource(mapView.getResources(),
+					R.drawable.flag);
+			canvas.drawBitmap(bitmap, matrix, paint);
 		} 
 	} 
 	

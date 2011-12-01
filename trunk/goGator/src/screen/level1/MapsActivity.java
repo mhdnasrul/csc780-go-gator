@@ -161,7 +161,10 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		// This is set to store previous provided coordinates. Will be helpful
 		// to see from which point to which point user is travelling.
 		prevRecLocation = currLocation;
-
+		
+		mFlagOverlay = new markerOverlay(drawable, BuildingItems
+				.getBuildingItems(), mapView, this);
+		
 		// Check intent extras to hold value for from where it is called e.g.
 		// Tab or List
 		Bundle flowbundle = getIntent().getExtras();
@@ -173,8 +176,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			// To add all building markers on Map
 //			mapOverlays.add(new markerOverlay(drawable, this, BuildingItems
 //					.getBuildingItems(), mapView).getItemizedoverlay());
-			mFlagOverlay = new markerOverlay(drawable, BuildingItems
-					.getBuildingItems(), mapView, this);
+			
 			mapOverlays.add(mFlagOverlay.getItemizedoverlay());
 
 			// For default Arrow Direction
@@ -184,20 +186,20 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			// Place Destination Marker
 
 			// Find the right object to place Marker
-			MyOverlayItem myItem = new MyOverlayItem();
-			int index = Integer.parseInt(flowbundle.getString("index"));
-			if (flowbundle.getString("type").equalsIgnoreCase("bldg"))
-				myItem = BuildingItems.getBuildingItem(index);
-			else if (flowbundle.getString("type").equalsIgnoreCase("dept"))
-				myItem = DeptItems.getDeptItem(index);
-			else if (flowbundle.getString("type").equalsIgnoreCase("cafe"))
-				myItem = CafeItems.getCafeItem(index);
-			else if (flowbundle.getString("type").equalsIgnoreCase("visit"))
-				myItem = VisitItems.getVisitItem(index);
+//			MyOverlayItem myItem = new MyOverlayItem();
+//			int index = Integer.parseInt(flowbundle.getString("index"));
+//			if (flowbundle.getString("type").equalsIgnoreCase("bldg"))
+//				myItem = BuildingItems.getBuildingItem(index);
+//			else if (flowbundle.getString("type").equalsIgnoreCase("dept"))
+//				myItem = DeptItems.getDeptItem(index);
+//			else if (flowbundle.getString("type").equalsIgnoreCase("cafe"))
+//				myItem = CafeItems.getCafeItem(index);
+//			else if (flowbundle.getString("type").equalsIgnoreCase("visit"))
+//				myItem = VisitItems.getVisitItem(index);
 
-			// Add Destination Marker
-			mapOverlays.add(new markerOverlay(drawable, myItem, mapView)
-					.getItemizedoverlay());
+//			// Add Destination Marker
+//			mapOverlays.add(new markerOverlay(drawable, myItem, mapView)
+//					.getItemizedoverlay());
 
 			// Get Destination GeoLocation
 			double dest_lat = Double
@@ -280,9 +282,25 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		
 	// To start Scanning QRCode - Scan Image Click
 	public void scanIt(View v) {
-		Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-		intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-		startActivityForResult(intent, 0);
+		String message = "Do you want to scan the QRCode in front of you to get further guidance?";
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setMessage(message).setCancelable(false)
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+						intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+						startActivityForResult(intent, 0);					}
+				});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
+		
+		
+		
 	}
 
 	// To catch the Scan Result and then process.
@@ -420,6 +438,7 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 			// Put arrow in right location on Map and give it the calculated
 			// angle
 			Matrix matrix = new Matrix();
+			//Adjustment for titlebar - present while App is running
 			matrix.postTranslate(-25, -25);
 			matrix.postRotate(azimut);
 			matrix.postTranslate(point1.x, point1.y);
@@ -645,7 +664,6 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 		}
 		MyMappedPath.setMypath(mappedpath);
 		mPathOverlay.add(new rideOverlay(dest, dest, 3));
-		
 		mapOverlays.addAll(mPathOverlay); // use the
 															// default
 		
