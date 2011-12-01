@@ -43,7 +43,7 @@ public class mapOverlay extends BalloonItemizedOverlay<MyOverlayItem> {
 	@Override
 	protected boolean onBalloonTap(int index, MyOverlayItem item) {
 		mapActivity.DrawPath(mapActivity.currLocation, item.getPoint(), Color.GREEN);
-		mapView.getOverlays().remove(1);
+		mapView.getOverlays().remove(mapActivity.mFlagOverlay.getItemizedoverlay());
 		return true;
 	}
 
