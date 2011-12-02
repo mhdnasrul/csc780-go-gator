@@ -8,9 +8,9 @@
  *  RScan button placed on !MapsActivity and current location.
 QRScan code and Building remap code is added to give a nice complete feeling to the App's Navigation. Also MyVisit Items List is switched back to normal.  
  
- *  PopUp Balloon is added for markers on the map.Default Text is set for Balloon Overlay.Replaced all building makers to reset Navigation.
+ *  !PopUp Balloon is added for markers on the map. Default Text is set for Balloon Overlay.Replaced all building makers to reset Navigation.
 
- *  Code CleanUp is done for MapsActivity. Application Flow for !MapsActivity is streamlined. !MapsActivity flow is completely connected.
+ *  Code !CleanUp is done for !MapsActivity. Application Flow for !MapsActivity is streamlined. !MapsActivity flow is completely connected.
 
 ==*In progress:*==
 
