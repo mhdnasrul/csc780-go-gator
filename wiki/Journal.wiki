@@ -1,4 +1,26 @@
 #labels JournalEntry
+=*Week8 (11/17 - 12/1)*=
+
+==*Completed:*==
+
+ *  Campus Navigation and Building Navigation data placed and accessed through Database. 
+
+ *  RScan button placed on !MapsActivity and current location.
+QRScan code and Building remap code is added to give a nice complete feeling to the App's Navigation. Also MyVisit Items List is switched back to normal.  
+ 
+ *  PopUp Balloon is added for markers on the map.Default Text is set for Balloon Overlay.Replaced all building makers to reset Navigation.
+
+ *  Code CleanUp is done for MapsActivity. Application Flow for !MapsActivity is streamlined. !MapsActivity flow is completely connected.
+
+==*In progress:*==
+
+ *  As the whole map rotates, the arrow always points to North. Like this the user knows if he is heading east or southwest or the like. 
+
+ *  Implementation of !MyRide 
+ 
+ *  Implementation of !PointIt  
+
+------------------------------------------------------------------------
 =*Week7 (11/10 - 11/17)*=
 
 ==*Completed:*==
