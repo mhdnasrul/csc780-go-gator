@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <screen.level1.RotatedMapView
+        android:id="@+id/rotating_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <com.google.android.maps.MapView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mapview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:apiKey="0PVBjW1QHkf7Efxx-z4tZnwOzUWQg00vyk0lh5A"
+            android:clickable="true"
+            android:enabled="true" />
+    </screen.level1.RotatedMapView>
+
+    <LinearLayout
+        android:id="@+id/laminate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <ImageView
+            android:id="@+id/needle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="rotateMap"
+            android:paddingLeft="20px"
+            android:src="@drawable/needle" >
+        </ImageView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/toplaminate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+
+        <ImageView
+            android:id="@+id/reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="resetLayout"
+            android:paddingLeft="20px"
+            android:src="@drawable/scan" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/locateme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="locateMe"
+            android:paddingLeft="20px"
+            android:src="@drawable/locateme" >
+        </ImageView>
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/saveloc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_margin="10px"
+            android:onClick="saveloc"
+            android:text="Save Ride Location" />
+        
+    </LinearLayout>
+
+</RelativeLayout><!--
+    android:apiKey="0LXJb0xpTeLgt289uArlFgcH1xyUcGPNM4AgDcw" <-Nikitas's API Key
+	android:apiKey="0PVBjW1QHkf4fAS17_vgtbnO4jsQnEsit244vMA" <-Nilay's API Key
+	android:apiKey="0LXJb0xpTeLiz2u42XPOK_4g3I8a1ETkEGzR0bg" <-Application API Key
+	android:apiKey="0PVBjW1QHkf7Efxx-z4tZnwOzUWQg00vyk0lh5A" <-Nilay's Mac-API Key
+-->

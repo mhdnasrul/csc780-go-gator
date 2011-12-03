@@ -34,6 +34,7 @@ public class HomeActivity extends Activity {
     
     public void MyRide(View view){
 		Intent intent = new Intent(this, MyRideActivity.class);
+		intent.putExtra("from", "tab");
 		startActivity(intent);	
 	}
       

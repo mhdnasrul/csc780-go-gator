@@ -105,6 +105,32 @@ public class rideOverlay extends Overlay
 					R.drawable.flag);
 			canvas.drawBitmap(bitmap, matrix, paint);
 		} 
+		
+		else if(mode==4) {
+			/* the last path */ 
+			
+			if(defaultColor==999) 
+			paint.setColor(Color.GREEN); 
+			else 
+			paint.setColor(defaultColor); 
+			Point point2 = new Point(); 
+			projection.toPixels(gp2, point2); 
+			paint.setStrokeWidth(5); 
+			paint.setAlpha(120); 
+			canvas.drawLine(point.x, point.y, point2.x,point2.y, paint); 
+			RectF oval=new RectF(point2.x - mRadius,point2.y - mRadius, 
+			point2.x + mRadius,point2.y + mRadius); 
+			/* end point */ 
+			paint.setAlpha(255); 
+			canvas.drawOval(oval, paint); 
+			
+			Matrix matrix = new Matrix();
+			matrix.postTranslate(-20, -20);
+			matrix.postTranslate(point.x, point.y);
+			Bitmap bitmap = BitmapFactory.decodeResource(mapView.getResources(),
+					R.drawable.ride);
+			canvas.drawBitmap(bitmap, matrix, paint);
+		} 
 	} 
 	
 	return super.draw(canvas, mapView, shadow, when); 
