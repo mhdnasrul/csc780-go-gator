@@ -38,6 +38,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -96,49 +97,18 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 	public List<rideOverlay> mPathOverlay;
 	private ImageView showBuildingButton;
 	private rideOverlay myParkedRide;
-	int myInt;
-
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-		System.out.println("Here 1");
-	  // Save UI state changes to the savedInstanceState.
-	  // This bundle will be passed to onCreate if the process is
-	  // killed and restarted.
-		super.onSaveInstanceState(savedInstanceState);
-		System.out.println("Here 2");
-	  savedInstanceState.putBoolean("MyBoolean", true);
-	  savedInstanceState.putDouble("myDouble", 1.9);
-	  savedInstanceState.putInt("MyInt", 1);
-	  savedInstanceState.putString("MyString", "Welcome back to Android");
-	  
-	  // etc.
-	  
-	}
-	
-	
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		System.out.println("Here 3");
-	  super.onRestoreInstanceState(savedInstanceState);
-	  System.out.println("Here 4");
-	  // Restore UI state from the savedInstanceState.
-	  // This bundle has also been passed to onCreate.
-	  boolean myBoolean = savedInstanceState.getBoolean("MyBoolean");
-	  double myDouble = savedInstanceState.getDouble("myDouble");
-	   myInt = savedInstanceState.getInt("MyInt");
-	  
-	  String myString = savedInstanceState.getString("MyString");
-	}
+	private boolean rideParked;
+	private boolean pathDrawn;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.ridetab);
 		showBuildingButton = (ImageView) findViewById(R.id.reset);
 		showBuildingButton.setVisibility(View.INVISIBLE);
 		// Rotating Layout which has MapView loaded in it.
 		rMapView = (RotatedMapView) findViewById(R.id.rotating_layout);
-		System.out.println("MyInt"+myInt);
 		// Setting MapView & its controllers
 		MapView mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
@@ -198,38 +168,26 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 		prevRecLocation = currLocation;
 		
 		myParkedRide = null;
-		
-		
-			
+		rideParked = false;
+		pathDrawn = false;
+//		SharedPreferences settings1 = getSharedPreferences("saveMe", 0);
+//	      SharedPreferences.Editor editor = settings1.edit();
+//	      editor.putBoolean("rideParked", false);
+//	      // Commit the edits!
+//	      editor.commit();
+		// Restore preferences
+	       SharedPreferences settings = getSharedPreferences("saveMe", 0);
+	       if(settings.getBoolean("rideParked", false)){
+	    	   int lat = settings.getInt("rideLoclat", 122);
+	    	   int lon = settings.getInt("rideLoclon", -37);
+	    	   destLocation = new GeoPoint(lat,lon);
+	    	   simulateSaveloc(destLocation);
+	       }
+	       if(settings.getBoolean("pathDrawn", false)){
+	    	   simulateSaveloc(destLocation);
+	       }
+	       
 
-			// For default Arrow Direction
-//			destLocation = new GeoPoint(37722734, -122478966);
-
-			// Place Destination Marker
-
-//			destLocation = new GeoPoint((int) (dest_lat), (int) (dest_long));
-
-			// Forked the path drawing Activity here, but noticed that it is
-			// taking way longer time in context switching so commented the
-			// code.
-			// ProgressDialog dialog = ProgressDialog.show(MapsActivity.this,
-			// "",
-			// "Loading Directions. Please wait...", true);
-			// new DrawPathTask().execute(dialog);
-
-			// new Thread(new Runnable() {
-			// public void run() {
-			// ProgressDialog dialog = ProgressDialog.show(MapsActivity.this,
-			// "",
-			// "Loading Directions. Please wait...", true);
-			// // Draw Path from source to Destination
-			// DrawPath(currLocation, destLocation, Color.GREEN);
-			// dialog.cancel();
-			// }
-			// }).start();
-
-			// Draw Path from source to Destination
-//			DrawPath(currLocation, destLocation, Color.GREEN);
 
 		System.out.println("OnCreateCalled");
 		mc = mapView.getController();
@@ -237,22 +195,6 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 		mc.setZoom(17);
 	}
 
-	// Forked Process to call DrawPath method
-	// private class DrawPathTask extends AsyncTask<ProgressDialog, String,
-	// String> {
-	// protected String doInBackground(ProgressDialog... dialog) {
-	// DrawPath(currLocation, destLocation, Color.GREEN);
-	// dialog[0].cancel();
-	// return "Its Done!!";
-	// }
-	//
-	// protected void onProgressUpdate(String... progress) {
-	// }
-	//
-	// protected void onPostExecute(String result) {
-	// System.out.println(result);
-	// }
-	// }
 
 	// Needle Image Click
 	public void rotateMap(View v) {
@@ -273,6 +215,8 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 	// Restore MapActivity to original state
 	public void resetLayout(View v) {
 		//Restart the activity
+	      rideParked=false;
+	      pathDrawn = false;
 		Intent intent = getIntent();
 		finish();
 		startActivity(intent);
@@ -288,13 +232,34 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 				destLocation = currLocation;
 				myParkedRide = new rideOverlay(currLocation, destLocation, 4);
 				mapOverlays.add(myParkedRide);
+				rideParked = true;
 				thisButton.setText("Where's My Ride?");
 				showBuildingButton.setVisibility(View.VISIBLE);
 			}
 			else{
 				DrawPath(currLocation, destLocation, Color.GREEN);
+				pathDrawn = true;
 			}
 		}
+		
+		// Save Current Location as Ride Location
+				public void simulateSaveloc(GeoPoint destLocation) {
+					// To get focus to current location while using Magnetometer.
+					Button thisButton = (Button) findViewById(R.id.saveloc);
+//					mc.animateTo(currLocation);
+					
+					if(thisButton.getText().toString().equalsIgnoreCase("Save Ride Location")){
+						myParkedRide = new rideOverlay(destLocation, destLocation, 4);
+						mapOverlays.add(myParkedRide);
+						rideParked = true;
+						thisButton.setText("Where's My Ride?");
+						showBuildingButton.setVisibility(View.VISIBLE);
+					}
+					else{
+						DrawPath(currLocation, destLocation, Color.GREEN);
+						pathDrawn = true;
+					}
+				}
 
 		
 	protected void onResume() {
@@ -314,6 +279,20 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 		// Unregister Sensor
 		System.out.println("OnPause Called");
 		mSensorManager.unregisterListener(this);
+		// We need an Editor object to make preference changes.
+	      // All objects are from android.context.Context
+	      SharedPreferences settings = getSharedPreferences("saveMe", 0);
+	      SharedPreferences.Editor editor = settings.edit();
+	      System.out.println("rideParked??"+rideParked);
+	      editor.putBoolean("rideParked", rideParked);
+	      editor.putBoolean("pathDrawn", pathDrawn);
+	      
+			if (rideParked) {
+				editor.putInt("rideLoclat", destLocation.getLatitudeE6());
+				editor.putInt("rideLoclon", destLocation.getLongitudeE6());
+			}
+		// Commit the edits!
+	      editor.commit();
 	}
 
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
