@@ -1,5 +1,7 @@
 package screen.level2;
 
+import java.util.Collections;
+
 import main.data.CafeItems;
 import main.overlay.MyOverlayItem;
 import android.app.ListActivity;
@@ -15,6 +17,8 @@ public class MyCafeActivity extends ListActivity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		
 		setListAdapter(new ArrayAdapter<MyOverlayItem>(this,
 				R.layout.building_list, CafeItems.getCafeItems()));
 	}
