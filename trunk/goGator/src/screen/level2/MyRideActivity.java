@@ -181,7 +181,8 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 	    	   int lat = settings.getInt("rideLoclat", 122);
 	    	   int lon = settings.getInt("rideLoclon", -37);
 	    	   //Make sure you reset these values to variables once distanceTo is fixed 
-	    	   destLocation = new GeoPoint(37721270,-122476860);
+//	    	   destLocation = new GeoPoint(37721270,-122476860);
+	    	   destLocation = new GeoPoint(lat,lon);
 	    	   simulateSaveloc(destLocation);
 	       }
 	       if(settings.getBoolean("pathDrawn", false)){
@@ -465,7 +466,7 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 
 		ArrayList<MyGeoPoint> gps = CampusMap.findShortestPath(
 				MyGeoPoint.getNearestMyGeoPoint(src),
-				MyGeoPoint.getMyGeoPoint(dest));
+				MyGeoPoint.getNearestMyGeoPoint(dest));
 		System.out.println(gps);
 
 		ArrayList<Location> mappedpath = new ArrayList<Location>();

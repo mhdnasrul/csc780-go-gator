@@ -15,7 +15,7 @@ public class BuildingItems {
 	private static ArrayList<MyOverlayItem> buildingItems;
 	
 	public BuildingItems(){
-		buildingItems = DataBaseHelper.queryDB("type = 'Building'");
+		buildingItems = DataBaseHelper.queryDB("type = 'Building' AND desc!='todo'");
 		Collections.sort(buildingItems);
 	}
 	
