@@ -3,6 +3,7 @@ package main.data;
 import gatorDB.DataBaseHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import main.common.Utils;
 import main.overlay.MyOverlayItem;
@@ -15,6 +16,7 @@ public class BuildingItems {
 	
 	public BuildingItems(){
 		buildingItems = DataBaseHelper.queryDB("type = 'Building'");
+		Collections.sort(buildingItems);
 	}
 	
 	/**

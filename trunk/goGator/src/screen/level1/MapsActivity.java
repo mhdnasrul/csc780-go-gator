@@ -613,7 +613,8 @@ public class MapsActivity extends MapActivity implements SensorEventListener {
 
 	public void DrawPath(GeoPoint src, GeoPoint dest, int color) {
 		mPathOverlay = new ArrayList<rideOverlay>();
-		
+		System.out.println("Destination Lat"+dest.getLatitudeE6());
+		System.out.println("Destination Lon"+dest.getLongitudeE6());
 		// Dijkstra Part
 		new MyGeoPoint();
 		System.out.println("Max Number");

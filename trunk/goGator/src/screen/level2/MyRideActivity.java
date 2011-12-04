@@ -180,7 +180,8 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 	       if(settings.getBoolean("rideParked", false)){
 	    	   int lat = settings.getInt("rideLoclat", 122);
 	    	   int lon = settings.getInt("rideLoclon", -37);
-	    	   destLocation = new GeoPoint(lat,lon);
+	    	   //Make sure you reset these values to variables once distanceTo is fixed 
+	    	   destLocation = new GeoPoint(37721270,-122476860);
 	    	   simulateSaveloc(destLocation);
 	       }
 	       if(settings.getBoolean("pathDrawn", false)){
@@ -249,7 +250,7 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 //					mc.animateTo(currLocation);
 					
 					if(thisButton.getText().toString().equalsIgnoreCase("Save Ride Location")){
-						myParkedRide = new rideOverlay(destLocation, destLocation, 4);
+						myParkedRide = new rideOverlay(destLocation, currLocation, 4);
 						mapOverlays.add(myParkedRide);
 						rideParked = true;
 						thisButton.setText("Where's My Ride?");
@@ -430,7 +431,8 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 			currLocation = new GeoPoint(
 					(int) (argLocation.getLatitude() * 1000000),
 					(int) (argLocation.getLongitude() * 1000000));
-
+				
+			
 
 						System.out.println("Location is changed!!!");
 
@@ -455,7 +457,8 @@ public class MyRideActivity extends MapActivity implements SensorEventListener {
 
 	public void DrawPath(GeoPoint src, GeoPoint dest, int color) {
 		mPathOverlay = new ArrayList<rideOverlay>();
-		
+		System.out.println("Destination Lat"+dest.getLatitudeE6());
+		System.out.println("Destination Lon"+dest.getLongitudeE6());
 		// Dijkstra Part
 		new MyGeoPoint();
 		System.out.println("Max Number");

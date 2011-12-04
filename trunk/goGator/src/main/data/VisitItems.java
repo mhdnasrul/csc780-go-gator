@@ -3,6 +3,7 @@ package main.data;
 import gatorDB.DataBaseHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import screen.main.GoGatorActivity;
 
@@ -20,6 +21,7 @@ public class VisitItems {
 	
 	public VisitItems(){
 		visitItems = DataBaseHelper.queryDB("type = 'Visit'");
+		Collections.sort(visitItems);
 	}
 
 	/**
