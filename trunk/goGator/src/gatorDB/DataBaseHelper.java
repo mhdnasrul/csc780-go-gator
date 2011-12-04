@@ -90,7 +90,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			String myPath = DB_PATH + DB_NAME;
 			checkDB = SQLiteDatabase.openDatabase(myPath, null,
 					SQLiteDatabase.OPEN_READONLY);
-			 // checkDB = null; //Uncomment this line after you copy new gatorDB
+			  checkDB = null; //Uncomment this line after you copy new gatorDB
 			// in assets
 		} catch (SQLiteException e) {
 

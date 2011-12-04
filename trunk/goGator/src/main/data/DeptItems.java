@@ -19,7 +19,7 @@ public class DeptItems {
 	private static ArrayList<MyOverlayItem> deptItems;
 
 	public DeptItems() {
-		deptItems = DataBaseHelper.queryDB("type like 'Dept%'");
+		deptItems = DataBaseHelper.queryDB("type = 'Dept'");
 		Collections.sort(deptItems);
 	}
 	/**
