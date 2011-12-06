@@ -35,14 +35,16 @@
 
         <uses-library android:name="com.google.android.maps" />
 
-        <activity android:name="screen.level1.HomeActivity" >
+        <activity android:name="screen.level1.HomeActivity" 
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name="screen.level1.CameraActivity" >
+        <activity android:name="screen.level1.CameraActivity" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:configChanges="orientation|keyboardHidden"
             android:name="com.google.zxing.client.android.CaptureActivity"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden" >
             <intent-filter >
@@ -56,21 +58,29 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="screen.level1.MoreActivity" >
+        <activity android:name="screen.level1.MoreActivity" 
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name="screen.level2.MyCafeActivity" >
+        <activity android:name="screen.level2.MyCafeActivity" 
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name="screen.level2.MyCampusActivity" >
+        <activity android:name="screen.level2.MyCampusActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="screen.level2.MyCampusBuildingActivity" >
+        <activity android:name="screen.level2.MyCampusBuildingActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="screen.level2.MyCampusDeptActivity" >
+        <activity android:name="screen.level2.MyCampusDeptActivity" 
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name="screen.level2.MyRideActivity" >
+        <activity android:name="screen.level2.MyRideActivity" 
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name="screen.level2.MyVisitActivity" >
+        <activity android:name="screen.level2.MyVisitActivity" 
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name="screen.level3.MyCampusDetailActivity" >
+        <activity android:name="screen.level3.MyCampusDetailActivity" 
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
