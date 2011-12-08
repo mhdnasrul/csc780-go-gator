@@ -12,20 +12,20 @@
 
 ==*screen.level1*==
 
- *  HomeActivity.java
+ *  [http://code.google.com/p/csc780-go-gator/source/browse/trunk/goGator/src/screen/level1/HomeActivity.java HomeActivity.java]
 
 (Entry point for any type of destination Navigation - Activity to load level2 Activities)
 
- *  MapsActivity.java
+ *  [http://code.google.com/p/csc780-go-gator/source/browse/trunk/goGator/src/screen/level1/MapsActivity.java MapsActivity.java]
 
 (Very Important part of Navigation, it loads map and all the correct path to direct user here.)
 <<If only willing to read one class, I would recommend to go through code of this class. >>
 
- *  CameraActivity.java
+ *  [http://code.google.com/p/csc780-go-gator/source/browse/trunk/goGator/src/screen/level1/CameraActivity.java CameraActivity.java]
 
 (Point It functionality is implemented here.)
 
- *  MoreActivity.java
+ *  [http://code.google.com/p/csc780-go-gator/source/browse/trunk/goGator/src/screen/level1/MoreActivity.java MoreActivity.java]
 
 (Small Description of About Us)
 
@@ -45,7 +45,7 @@
 
 ==*gatorDB*==
 
- *  DataBaseHelper.java
+ *  [http://code.google.com/p/csc780-go-gator/source/browse/trunk/goGator/src/gatorDB/DataBaseHelper.java DataBaseHelper.java]
 
  (To pull out values from DB)
 
