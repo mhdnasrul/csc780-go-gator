@@ -19,6 +19,7 @@
  *  [http://code.google.com/p/csc780-go-gator/source/browse/trunk/goGator/src/screen/level1/MapsActivity.java MapsActivity.java]
 
 (Very Important part of Navigation, it loads map and all the correct path to direct user here.)
+
 <<If only willing to read one class, I would recommend to go through code of this class. >>
 
  *  [http://code.google.com/p/csc780-go-gator/source/browse/trunk/goGator/src/screen/level1/CameraActivity.java CameraActivity.java]
