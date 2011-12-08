@@ -57,6 +57,9 @@
 (Overlays to provide styling over existing default properties. )
 
 
+==*Dependent App Used - ZXing*==
+(For QR COde scanning a separate App called ZXing is used - Code is set that when GoGator App is downloaded this app will also be automatically downloaded. User will not have to do anything.)
+
 
 
 
