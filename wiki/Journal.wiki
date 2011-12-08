@@ -1,4 +1,70 @@
 #labels JournalEntry
+=*Recommended reading for flow of Code*=
+
+
+==*screen.main*==
+
+ *  GoGatorActivity.java
+
+(Main entry point for Application - Tab Activity to load level1 Activities)
+
+
+
+==*screen.level1*==
+
+ *  HomeActivity.java
+
+(Entry point for any type of destination Navigation - Activity to load level2 Activities)
+
+ *  MapsActivity.java
+
+(Very Important part of Navigation, it loads map and all the correct path to direct user here.)
+<<If only willing to read one class, I would recommend to go through code of this class. >>
+
+ *  CameraActivity.java
+
+(Point It functionality is implemented here.)
+
+ *  MoreActivity.java
+
+(Small Description of About Us)
+
+
+
+==*screen.level2 & screen.level3*==
+
+ (All the List Adapters are loaded here for Navigation & their description)
+
+
+
+==*main.routing.algo*==
+
+ (Dijkstra Algorithm, Routing Dictionary to Generate Campus Graph and other related classes are in this package)
+
+
+
+==*gatorDB*==
+
+ *  DataBaseHelper.java
+
+ (To pull out values from DB)
+
+
+==*Other packages e.g. Utilities, Overlays*==
+
+(To pull in common functionalities like alert, toast, distance Calculation )
+
+(Overlays to provide styling over existing default properties. )
+
+
+
+
+
+
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+
 =*Week8 (11/17 - 12/1)*=
 
 ==*Completed:*==
