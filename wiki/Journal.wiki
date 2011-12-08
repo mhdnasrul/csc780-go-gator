@@ -4,7 +4,7 @@
 
 ==*screen.main*==
 
- *  GoGatorActivity.java
+ *  [http://code.google.com/p/csc780-go-gator/source/browse/trunk/goGator/src/screen/main/GoGatorActivity.java GoGatorActivity.java] 
 
 (Main entry point for Application - Tab Activity to load level1 Activities)
 
